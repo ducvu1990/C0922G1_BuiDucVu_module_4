@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d247891-471e-490c-9c3d-ae1eaaddccb9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../app_that_displays_seasoning_with_sandwich/src/main/java/com/example/app_that_displays_seasoning_with_sandwich/contoller/SandwichCondimentsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../app_that_displays_seasoning_with_sandwich/src/main/webapp/WEB-INF/views/condiments.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/personal_computer/PersonalComputer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/computer.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../untitled/src/sxsad.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../untitled/untitled.iml" afterDir="false" />
-    </list>
+    <list default="true" id="2d247891-471e-490c-9c3d-ae1eaaddccb9" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -165,7 +157,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1675244493271</updated>
-      <workItem from="1675244494621" duration="1361000" />
+      <workItem from="1675244494621" duration="2087000" />
     </task>
     <servers />
   </component>
