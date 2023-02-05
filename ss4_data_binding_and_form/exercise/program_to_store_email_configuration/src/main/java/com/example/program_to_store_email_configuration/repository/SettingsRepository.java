@@ -11,7 +11,7 @@ import java.util.Map;
 @Repository
 
 public class SettingsRepository {
-    static Map<String,Settings> settings = new HashMap<>();
+    private static final Map<String,Settings> settings = new HashMap<>();
     static {
         Settings settings1 = new Settings("English",10,true,"hello");
         Settings settings2 = new Settings("Vietnamese",5,false,"xin chao");
@@ -22,10 +22,10 @@ public class SettingsRepository {
         settings.put("d@codegym.vn",settings3);
         settings.put("b@codegym.vn",settings4);
     }
-    public List<String> finAllEmail(){
+    public List<String> findAllEmail(){
         return new ArrayList<>(settings.keySet());
     }
-    public Settings finSetting(String key){
+    public Settings findSetting(String key){
         Settings settings1 = null;
         for (Map.Entry<String, Settings> entry : settings.entrySet()) {
             if (entry.getKey().equals(key)){

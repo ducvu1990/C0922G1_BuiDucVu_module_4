@@ -10,35 +10,31 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 
 public class SettingsController {
-    String email;
     @Autowired
     SettingsRepository settingsRepository;
     @GetMapping()
     public String showList(Model model){
-        List<String> settings = settingsRepository.finAllEmail();
+        List<String> settings = settingsRepository.findAllEmail();
         model.addAttribute("settings", settings);
         return "home";
     }
     @GetMapping("/settings")
     public String setting(@RequestParam("setting") String setting, Model model){
-        email = setting;
-        Settings settings1 = settingsRepository.finSetting(setting);
+        Settings settings1 = settingsRepository.findSetting(setting);
+        model.addAttribute("setting", setting);
         model.addAttribute("settings1",settings1);
         return "setting";
     }
-    @GetMapping("/update")
-    public String updateSetting(@ModelAttribute Settings settingss,Model model){
+    @PostMapping("/update")
+    public String updateSetting(@ModelAttribute Settings settingss,@RequestParam("email") String email, Model model){
         settingsRepository.update(settingss,email);
-        List<String> settings = settingsRepository.finAllEmail();
+        List<String> settings = settingsRepository.findAllEmail();
         model.addAttribute("settings", settings);
-        email = "";
         return "home";
     }
     @ModelAttribute("language")

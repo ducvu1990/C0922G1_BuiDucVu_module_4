@@ -13,11 +13,11 @@
 </head>
 <body>
 <h1>Setting</h1>
-<form:form method="get" modelAttribute="settings1" action="update">
+<form:form method="post" modelAttribute="settings1" action="update">
     <table>
-        <tr >
+        <tr hidden>
             <td></td>
-            <td>${setting}</td>
+            <td><input type="text" value="${setting}" name="email"></td>
         </tr>
         <tr>
             <td>language</td>
