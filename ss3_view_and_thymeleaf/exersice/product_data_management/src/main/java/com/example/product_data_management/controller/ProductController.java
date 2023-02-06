@@ -1,6 +1,7 @@
 package com.example.product_data_management.controller;
 
 import com.example.product_data_management.model.Product;
+import com.example.product_data_management.repository.IProductRepository;
 import com.example.product_data_management.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,16 +31,11 @@ public class ProductController {
 
     @PostMapping("/save")
     public String save(Product product, RedirectAttributes redirectAttributes) {
-        product.setId((int) (Math.random() * 1000));
-        Product product1 = productService.findById(product.getId());
-        if (product1 == null) {
+
             productService.save(product);
             redirectAttributes.addFlashAttribute("message", "create success");
             return "redirect:/product";
-        } else {
-            redirectAttributes.addFlashAttribute("message", "create failure");
-            return "redirect:/product";
-        }
+
     }
 
     @GetMapping("/{id}/edit")
