@@ -9,5 +9,5 @@ List<Blog> findAll();
 void save(Blog blog);
 Blog findById(int id);
 void update(Blog blog);
-void remove(int id);
+void remove(Blog blog);
 }

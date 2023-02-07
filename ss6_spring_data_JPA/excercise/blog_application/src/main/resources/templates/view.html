@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout::header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:replace="/layout::nav"></th:block>
+<h1>View Blog</h1>
+<p>
+  <a th:href="@{/blog}">
+    Back to List Blog
+  </a>
+</p>
+<div class="container">
+    <table >
+        <tr hidden >
+            <th>Id:</th>
+            <td th:text="${blog.getId()}"></td>
+        </tr>
+        <tr>
+            <th>Author:</th>
+            <td th:text="${blog.getAuthor()}"></td>
+        </tr>
+        <tr>
+            <th>Name:</th>
+            <td th:text="${blog.getName()}"></td>
+        </tr>
+        <tr>
+            <th>Date Create:</th>
+            <td th:text="${blog.getDateCreate()}"></td>
+        </tr>
+        <tr>
+            <th>Content:</th>
+            <td th:text="${blog.getContent()}"></td>
+        </tr>
+    </table>
+</div>
+<footer th:replace="/layout::footer"></footer>
+</body>
+</html>

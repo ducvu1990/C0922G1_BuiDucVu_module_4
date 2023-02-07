@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class BlogService implements IBlogService {
     @Autowired
-    IBlogRepository blogRepository;
+    private IBlogRepository blogRepository;
 
     @Override
     public List<Blog> findAll() {
@@ -33,8 +33,7 @@ public class BlogService implements IBlogService {
     }
 
     @Override
-    public void remove(int id) {
-       Blog blog = blogRepository.findById(id).get();
+    public void remove(Blog blog) {
        blogRepository.delete(blog);
     }
 }

@@ -13,6 +13,18 @@ public class Blog {
     private String author;
     private String name;
     private String dateCreate;
+    private String content;
+
+    public Blog() {
+    }
+
+    public Blog(int id, String author, String name, String dateCreate, String content) {
+        this.id = id;
+        this.author = author;
+        this.name = name;
+        this.dateCreate = dateCreate;
+        this.content = content;
+    }
 
     public int getId() {
         return id;
@@ -53,18 +65,4 @@ public class Blog {
     public void setContent(String content) {
         this.content = content;
     }
-
-    private String content;
-
-    public Blog() {
-    }
-
-    public Blog(int id, String author, String name, String dateCreate, String content) {
-        this.id = id;
-        this.author = author;
-        this.name = name;
-        this.dateCreate = dateCreate;
-        this.content = content;
-    }
-
 }
