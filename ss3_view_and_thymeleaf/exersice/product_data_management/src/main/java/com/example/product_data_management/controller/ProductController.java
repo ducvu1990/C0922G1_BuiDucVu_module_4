@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
     @Autowired
-    IProductService productService;
+    private IProductService productService;
 
     @GetMapping()
     public String ListProduct(Model model) {
@@ -32,9 +32,9 @@ public class ProductController {
     @PostMapping("/save")
     public String save(Product product, RedirectAttributes redirectAttributes) {
 
-            productService.save(product);
-            redirectAttributes.addFlashAttribute("message", "create success");
-            return "redirect:/product";
+        productService.save(product);
+        redirectAttributes.addFlashAttribute("message", "create success");
+        return "redirect:/product";
 
     }
 
@@ -43,36 +43,41 @@ public class ProductController {
         model.addAttribute("product", productService.findById(id));
         return "edit";
     }
+
     @PostMapping("/update")
-    public String update(Product product,RedirectAttributes redirectAttributes){
+    public String update(Product product, RedirectAttributes redirectAttributes) {
         productService.update(product.getId(), product);
-        redirectAttributes.addFlashAttribute("message","update success");
+        redirectAttributes.addFlashAttribute("message", "update success");
         return "redirect:/product";
     }
+
     @GetMapping("/{id}/delete")
-    public String delete(@PathVariable int id, Model model){
-        model.addAttribute("product",productService.findById(id));
+    public String delete(@PathVariable int id, Model model) {
+        model.addAttribute("product", productService.findById(id));
         return "/delete";
     }
+
     @PostMapping("/delete")
-    public String remave(Product product, RedirectAttributes redirectAttributes){
+    public String remave(Product product, RedirectAttributes redirectAttributes) {
         productService.remove(product.getId());
-        redirectAttributes.addFlashAttribute("message","delete success");
+        redirectAttributes.addFlashAttribute("message", "delete success");
         return "redirect:/product";
     }
+
     @GetMapping("/{id}/view")
-    public String view(@PathVariable int id, Model model){
-        model.addAttribute("product",productService.findById(id));
+    public String view(@PathVariable int id, Model model) {
+        model.addAttribute("product", productService.findById(id));
         return "/view";
     }
+
     @GetMapping("/search")
-    public String search(@RequestParam String name, Model model, RedirectAttributes  redirectAttributes){
+    public String search(@RequestParam String name, Model model, RedirectAttributes redirectAttributes) {
         List<Product> products = productService.search(name);
-        if (products.size() != 0){
+        if (products.size() != 0) {
             model.addAttribute("products", products);
             return "/search";
-        }else {
-            redirectAttributes.addFlashAttribute("message","No Data");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "No Data");
             return "redirect:/product";
         }
     }

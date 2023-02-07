@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout :: head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Blog</h1>
+<p>
+    <a th:href="@{/blog/creat}">
+        Add new Blog
+    </a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Author</th>
+        <th scope="col">Date Create</th>
+        <th scope="col">Content</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+        <th scope="col">View</th>
+    </tr>
+    </thead>
+    <tbody class="table-group-divider">
+    <tr th:each="blog:${blogList}">
+        <th scope="row" th:text="${blog.getId()}"></th>
+        <td th:text="${blog.getAuthor()}"></td>
+        <td th:text="${blog.getDateCreate()}"></td>
+        <td th:text="${blog.getContent()}"></td>
+        <td><a th:href="@{/blog/{id}/edit=(id=${blog.getId()})}">Edit</a></td>
+        <td><a th:href="@{/blog/{id}/delete=(id=${blog.getId()})}">Delete</a></td>
+        <td><a th:href="@{/blog/{id}/view=(id=${blog.getId()})}">View</a></td>
+    </tr>
+    </tbody>
+</table>
+<footer th:replace="/layout::footer"></footer>
+</body>
+</html>

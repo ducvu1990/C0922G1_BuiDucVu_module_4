@@ -2,6 +2,7 @@ package com.example.product_data_management.repository.impl;
 
 import com.example.product_data_management.model.Product;
 import com.example.product_data_management.repository.IProductRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,7 +11,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 
-@Service
+@Repository
 public class ProductRepository implements IProductRepository {
     @PersistenceContext
     private EntityManager entityManager;
