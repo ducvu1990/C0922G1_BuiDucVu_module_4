@@ -14,8 +14,7 @@ import javax.validation.constraints.Size;
 
 
 public class UserDTO implements Validator {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private int id;
     @NotEmpty
     @Size(min = 5, max = 45)
