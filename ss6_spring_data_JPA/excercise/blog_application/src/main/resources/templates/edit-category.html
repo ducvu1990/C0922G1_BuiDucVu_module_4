@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout::header">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<th:block th:replace="/layout::nav"></th:block>
+<h1>Update Category</h1>
+<p>
+  <a th:href="@{/category}">
+    Back to List Category
+  </a>
+</p>
+<form th:action="@{/category/update}" th:object="${category}" method="post" class="container">
+  <input type="text" hidden th:field="*{id}">
+  <div class="mb-3">
+    <label class="form-label">Name</label>
+    <input type="text" th:field="*{name}">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<footer th:replace="/layout::footer"></footer>
+</body>
+</html>

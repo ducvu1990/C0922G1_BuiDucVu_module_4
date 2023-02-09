@@ -52,7 +52,7 @@ public class BlogController {
         model.addAttribute("blogs", blogService.findById(id));
         return "/remove";
     }
-    @PostMapping("/remeve")
+    @PostMapping("/remove")
     public String remeve(Blog blog, RedirectAttributes redirectAttributes){
         blogService.remove(blog);
         redirectAttributes.addFlashAttribute("message", "Delete success");

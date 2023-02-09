@@ -34,6 +34,6 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public void remove(Category category) {
-        categoryRepository.delete(category);
+        categoryRepository.deleteById(category.getId());
     }
 }

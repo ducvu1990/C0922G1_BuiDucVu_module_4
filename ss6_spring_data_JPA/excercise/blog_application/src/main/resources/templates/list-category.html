@@ -24,16 +24,14 @@
         <th scope="col">Name</th>
         <th scope="col">Edit</th>
         <th scope="col">Delete</th>
-        <th scope="col">View</th>
     </tr>
     </thead>
     <tbody class="table-group-divider">
     <tr th:each="category:${category}">
         <th scope="row" th:text="${category.getId()}"></th>
         <td th:text="${category.getName()}"></td>
-        <td><button type="button" class="btn btn-success"><a th:href="@{/blog/{id}/edit(id=${category.getId()})}">Edit</a></button></td>
-        <td><button type="button" class="btn btn-danger"><a th:href="@{/blog/{id}/delete(id=${category.getId()})}">Delete</a></button></td>
-        <td><button type="button" class="btn btn-info"><a th:href="@{/blog/{id}/view(id=${category.getId()})}">View</a></button></td>
+        <td><button type="button" class="btn btn-success"><a th:href="@{/category/{id}/edit(id=${category.getId()})}">Edit</a></button></td>
+        <td><button type="button" class="btn btn-danger"><a th:href="@{/category/{id}/delete(id=${category.getId()})}">Delete</a></button></td>
     </tr>
     </tbody>
 </table>
