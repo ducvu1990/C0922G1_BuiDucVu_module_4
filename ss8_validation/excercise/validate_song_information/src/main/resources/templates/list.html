@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout::header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:replace="/layout::nav"></th:block>
+<h1>Song</h1>
+<p>
+    <a th:href="@{/song/create}">
+        Add new Song
+    </a>
+</p>
+<div class="notify">
+    <div th:if="${message}">
+        <h2 th:text="${message}" style="color: #4CAF50"></h2>
+    </div>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Artist</th>
+        <th scope="col">Kind Of Music</th>
+        <th scope="col">Edit</th>
+    </tr>
+    </thead>
+    <tbody class="table-group-divider">
+    <tr th:each="song:${songs}">
+        <th scope="row" th:text="${song.getId()}"></th>
+        <td th:text="${song.getName()}"></td>
+        <td th:text="${song.getArtist()}"></td>
+        <td th:text="${song.getKindOfMusic()}"></td>
+        <td><button type="button" class="btn btn-success"><a th:href="@{/song/{id}/edit(id=${song.getId()})}">Edit</a></button></td>
+    </tr>
+    </tbody>
+</table>
+<footer th:replace="/layout::footer"></footer>
+</body>
+</html>

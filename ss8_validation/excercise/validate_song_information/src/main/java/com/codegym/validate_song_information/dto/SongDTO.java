@@ -26,7 +26,19 @@ public class SongDTO implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-
+        SongDTO songDTO = (SongDTO) target;
+        String name = songDTO.getName();
+        String artist = songDTO.getArtist();
+        String kindOfMusic = songDTO.getKindOfMusic();
+        if (!name.matches("^[a-zA-Z0-9]+$")){
+            errors.rejectValue("name","name1","Malformed");
+        }
+        if (!artist.matches("^[a-zA-Z0-9]+$")){
+            errors.rejectValue("artist", "artist1", "Malformed");
+        }
+        if (!kindOfMusic.matches("^[a-zA-Z0-9,]+$")){
+            errors.rejectValue("kindOfMusic", "kindOfMusic1", "Malformed");
+        }
     }
 
     public SongDTO() {
