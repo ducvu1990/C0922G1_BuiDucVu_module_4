@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout::header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:replace="/layout::nav"></th:block>
+<h1>List Category</h1>
+<p>
+    <a th:href="@{/category/create}">
+        Add new Category
+    </a>
+</p>
+<div class="notify">
+    <div th:if="${message}">
+        <h2 th:text="${message}" style="color: #4CAF50"></h2>
+    </div>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+        <th scope="col">View</th>
+    </tr>
+    </thead>
+    <tbody class="table-group-divider">
+    <tr th:each="category:${category}">
+        <th scope="row" th:text="${category.getId()}"></th>
+        <td th:text="${category.getName()}"></td>
+        <td><button type="button" class="btn btn-success"><a th:href="@{/blog/{id}/edit(id=${category.getId()})}">Edit</a></button></td>
+        <td><button type="button" class="btn btn-danger"><a th:href="@{/blog/{id}/delete(id=${category.getId()})}">Delete</a></button></td>
+        <td><button type="button" class="btn btn-info"><a th:href="@{/blog/{id}/view(id=${category.getId()})}">View</a></button></td>
+    </tr>
+    </tbody>
+</table>
+<footer th:replace="/layout::footer"></footer>
+</body>
+</html>
