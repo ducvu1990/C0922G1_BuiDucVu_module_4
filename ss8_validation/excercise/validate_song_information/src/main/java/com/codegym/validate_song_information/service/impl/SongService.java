@@ -19,6 +19,11 @@ public class SongService implements ISongService {
     }
 
     @Override
+    public Song findById(int id) {
+        return songRepository.findById(id).get();
+    }
+
+    @Override
     public void save(Song song) {
         songRepository.save(song);
     }

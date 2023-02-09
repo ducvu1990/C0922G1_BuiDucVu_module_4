@@ -5,19 +5,15 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Create Song</h1>
+<h1>Edit Song</h1>
 <p>
     <a th:href="@{/song}">
         Back to List Song
     </a>
 </p>
-<div class="notify">
-    <div th:if="${message}">
-        <h2 th:text="${message}" style="color: #4CAF50"></h2>
-    </div>
-</div>
-<form th:action="@{/song/save}" th:object="${song}"
+<form th:action="@{/song/update}" th:object="${song}"
       method="post">
+    <input type="text" hidden th:field="*{id}">
     <table>
         <tr>
             <td>Name</td>
