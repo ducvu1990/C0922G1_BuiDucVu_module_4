@@ -5,6 +5,9 @@ import com.codegym.validate_song_information.model.Song;
 import com.codegym.validate_song_information.service.ISongService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,9 +21,13 @@ public class SongController {
     @Autowired
     private ISongService songService;
 
-    @GetMapping()
-    public String listSong(Model model) {
-        model.addAttribute("songs", songService.findAll());
+    @GetMapping("")
+    public String listSong(@RequestParam(required = false,defaultValue = "") String name, Model model,
+                           @RequestParam(required = false,defaultValue = "0") int page) {
+        Pageable pageable = PageRequest.of(page,2);
+        Page<Song> songPage =songService.search(name, pageable);
+        model.addAttribute("songPage", songPage);
+        model.addAttribute("name",name);
         return "list";
     }
 
