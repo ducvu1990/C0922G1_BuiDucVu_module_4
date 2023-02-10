@@ -1,6 +1,7 @@
 package com.codegym.validate_song_information.dto;
 
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 
@@ -9,14 +10,14 @@ import javax.validation.constraints.NotEmpty;
 
 public class SongDTO implements Validator {
     private int id;
-    @NotEmpty
-    @Max(800)
+
+    @Max(value = 800,message = "không quá 800 ký tự")
     private String name;
-    @NotEmpty
-    @Max(300)
+
+    @Max(value = 300, message = "không quá 300 ký tự")
     private String artist;
-    @NotEmpty
-    @Max(1000)
+
+    @Max(value = 1000,message = "không quá 1000 ký tự")
     private String kindOfMusic;
 
     @Override
@@ -27,17 +28,22 @@ public class SongDTO implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         SongDTO songDTO = (SongDTO) target;
+
+        ValidationUtils.rejectIfEmpty(errors,"name","name","Không được để trống");
+        ValidationUtils.rejectIfEmpty(errors,"artist","artist","Không được để trống");
+        ValidationUtils.rejectIfEmpty(errors,"kindOfMusic","kindOfMusic","Không được để trống");
+
         String name = songDTO.getName();
         String artist = songDTO.getArtist();
         String kindOfMusic = songDTO.getKindOfMusic();
         if (!name.matches("^[a-zA-Z0-9]+$")){
-            errors.rejectValue("name","name1","Malformed");
+            errors.rejectValue("name","name","không đúng định dạng");
         }
         if (!artist.matches("^[a-zA-Z0-9]+$")){
-            errors.rejectValue("artist", "artist1", "Malformed");
+            errors.rejectValue("artist", "artist", "không đúng định dạng");
         }
         if (!kindOfMusic.matches("^[a-zA-Z0-9,]+$")){
-            errors.rejectValue("kindOfMusic", "kindOfMusic1", "Malformed");
+            errors.rejectValue("kindOfMusic", "kindOfMusic", "không đúng định dạng");
         }
     }
 

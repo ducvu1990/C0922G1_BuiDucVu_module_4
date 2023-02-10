@@ -30,6 +30,12 @@
         <label class="form-label">Content</label>
         <input type="text" th:field="*{content}">
     </div>
+    <div class="mb-3">
+        <label class="form-label">Content</label>
+        <select type="text" th:field="*{category}">
+            <option th:each="category:${categories}" th:value="${category.getId()}" th:text="${category.getName()}"></option>
+        </select>
+    </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 <footer th:replace="/layout::footer"></footer>

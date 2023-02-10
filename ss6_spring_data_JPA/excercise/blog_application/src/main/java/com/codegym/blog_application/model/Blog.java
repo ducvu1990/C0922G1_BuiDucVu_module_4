@@ -15,15 +15,24 @@ public class Blog {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public Blog() {
     }
 
-    public Blog(int id, String author, String name, String dateCreate, String content) {
+    public Blog(int id, String author, String name, String dateCreate, String content, Category category) {
         this.id = id;
         this.author = author;
         this.name = name;
         this.dateCreate = dateCreate;
         this.content = content;
+        this.category = category;
     }
 
     public int getId() {

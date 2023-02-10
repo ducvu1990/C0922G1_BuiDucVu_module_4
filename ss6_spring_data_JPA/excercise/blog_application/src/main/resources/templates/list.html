@@ -21,9 +21,11 @@
     <thead>
     <tr>
         <th scope="col">#</th>
+        <th scope="col">Name</th>
         <th scope="col">Author</th>
         <th scope="col">Date Create</th>
         <th scope="col">Content</th>
+        <th scope="col">Category</th>
         <th scope="col">Edit</th>
         <th scope="col">Delete</th>
         <th scope="col">View</th>
@@ -32,15 +34,21 @@
     <tbody class="table-group-divider">
     <tr th:each="blog:${blogList}">
         <th scope="row" th:text="${blog.getId()}"></th>
+        <td th:text="${blog.getName()}"></td>
         <td th:text="${blog.getAuthor()}"></td>
         <td th:text="${blog.getDateCreate()}"></td>
         <td th:text="${blog.getContent()}"></td>
+        <td th:text="${blog.getCategory().getName()}"></td>
         <td><button type="button" class="btn btn-success"><a th:href="@{/blog/{id}/edit(id=${blog.getId()})}">Edit</a></button></td>
         <td><button type="button" class="btn btn-danger"><a th:href="@{/blog/{id}/delete(id=${blog.getId()})}">Delete</a></button></td>
         <td><button type="button" class="btn btn-info"><a th:href="@{/blog/{id}/view(id=${blog.getId()})}">View</a></button></td>
     </tr>
     </tbody>
 </table>
+<span><a th:if="${blogList.hasPrevious()}" th:href="@{/blog(page=${blogList.number}-1,name=${name})}" >truoc</a></span>
+<span th:text="${blogList.number}+1+'/'"></span>
+<span th:text="${blogList.totalPages}"></span>
+<span><a th:if="${blogList.hasNext()}" th:href="@{/blog(page=${blogList.number}+1,name=${name})}" >sau</a></span>
 <footer th:replace="/layout::footer"></footer>
 </body>
 </html>
