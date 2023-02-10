@@ -1,7 +1,6 @@
 package com.codegym.blog_application.controller;
 
 import com.codegym.blog_application.model.Blog;
-import com.codegym.blog_application.model.Category;
 import com.codegym.blog_application.service.IBlogService;
 import com.codegym.blog_application.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("/blog")
@@ -61,15 +59,9 @@ public class BlogController {
         return "redirect:/blog";
     }
 
-    @GetMapping("/{id}/delete")
-    public String delete(@PathVariable int id, Model model) {
-        model.addAttribute("blogs", blogService.findById(id));
-        return "/remove";
-    }
-
-    @PostMapping("/remove")
-    public String remeve(Blog blog, RedirectAttributes redirectAttributes) {
-        blogService.remove(blog);
+    @GetMapping("/remove")
+    public String remeve(@RequestParam int id, RedirectAttributes redirectAttributes) {
+        blogService.remove(blogService.findById(id));
         redirectAttributes.addFlashAttribute("message", "Delete success");
         return "redirect:/blog";
     }
