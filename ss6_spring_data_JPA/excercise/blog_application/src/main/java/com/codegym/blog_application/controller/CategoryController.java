@@ -15,7 +15,7 @@ public class CategoryController {
     private ICategoryService categoryService;
     @GetMapping("/list-category")
     public String listCategory(Model model){
-        model.addAttribute("category", categoryService.findAll());
+        model.addAttribute("categorys", categoryService.findAll());
         return "list-category";
     }
     @GetMapping("/create")
@@ -40,14 +40,14 @@ public class CategoryController {
         redirectAttributes.addFlashAttribute("message","Update success");
         return "redirect:/category/list-category";
     }
-    @GetMapping("/{id}/delete")
-    public String delete(@PathVariable int id, Model model){
-        model.addAttribute("category", categoryService.findById(id));
-        return "delete-category";
-    }
-    @PostMapping("/remove")
-    public String remove(@ModelAttribute Category category, RedirectAttributes redirectAttributes){
-        categoryService.remove(category);
+//    @GetMapping("/{id}/delete")
+//    public String delete(@PathVariable int id, Model model){
+//        model.addAttribute("category", categoryService.findById(id));
+//        return "delete-category";
+//    }
+    @GetMapping("/remove")
+    public String remove(@RequestParam int id, RedirectAttributes redirectAttributes){
+        categoryService.remove(categoryService.findById(id));
         redirectAttributes.addFlashAttribute("message", "Delete success");
         return "redirect:/category/list-category";
     }

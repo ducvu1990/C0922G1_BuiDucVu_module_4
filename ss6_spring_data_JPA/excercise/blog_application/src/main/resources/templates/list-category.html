@@ -27,14 +27,47 @@
     </tr>
     </thead>
     <tbody class="table-group-divider">
-    <tr th:each="category:${category}">
+    <tr th:each="category:${categorys}">
         <th scope="row" th:text="${category.getId()}"></th>
         <td th:text="${category.getName()}"></td>
         <td><button type="button" class="btn btn-success"><a th:href="@{/category/{id}/edit(id=${category.getId()})}">Edit</a></button></td>
-        <td><button type="button" class="btn btn-danger"><a th:href="@{/category/{id}/delete(id=${category.getId()})}">Delete</a></button></td>
+        <td>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+            th:attr="onclick=|info('${category.getId()}','${category.getName()}')|">
+                Delete
+            </button>
+        </td>
     </tr>
     </tbody>
 </table>
 <footer th:replace="/layout::footer"></footer>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="name" style="color: red"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form th:action="@{/category/remove}" method="get">
+                    <input type="text" id="idRemove" name="id">
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
+<script>
+    function info(id, name){
+        document.getElementById("idRemove").value= id;
+        document.getElementById("name").innerText= "Bạn thưc sự muốn xóa " + name;
+    }
+</script>
 </html>
