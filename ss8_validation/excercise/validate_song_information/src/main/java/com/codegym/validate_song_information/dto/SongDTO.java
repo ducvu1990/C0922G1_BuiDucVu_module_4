@@ -11,15 +11,15 @@ public class SongDTO implements Validator {
     private int id;
 
     @Size(max = 800,message = "không quá 800 ký tự")
-    @NotBlank(message = "Phải nhập trường Tên")
+    @NotBlank(message = "Tên không được để ký tự trống")
     private String name;
 
     @Size(max = 300, message = "không quá 300 ký tự")
-    @NotBlank(message = "Phải nhập trường Tác Giả")
+    @NotBlank(message = "Tác Giả không được để ký tự trống")
     private String artist;
 
     @Size(max = 1000,message = "không quá 1000 ký tự")
-    @NotBlank(message = "Phải nhập trường thể loại")
+    @NotBlank(message = "Thể loại không được để ký tự trống")
     private String kindOfMusic;
 
     @Override
