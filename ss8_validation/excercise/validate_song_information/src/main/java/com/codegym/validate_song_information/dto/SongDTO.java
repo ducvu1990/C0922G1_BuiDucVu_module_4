@@ -5,20 +5,21 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 
 public class SongDTO implements Validator {
     private int id;
 
-    @Max(value = 800,message = "không quá 800 ký tự")
+    @Size(max = 800,message = "không quá 800 ký tự")
+    @NotBlank(message = "Phải nhập trường Tên")
     private String name;
 
-    @Max(value = 300, message = "không quá 300 ký tự")
+    @Size(max = 300, message = "không quá 300 ký tự")
+    @NotBlank(message = "Phải nhập trường Tác Giả")
     private String artist;
 
-    @Max(value = 1000,message = "không quá 1000 ký tự")
+    @Size(max = 1000,message = "không quá 1000 ký tự")
+    @NotBlank(message = "Phải nhập trường thể loại")
     private String kindOfMusic;
 
     @Override
@@ -30,20 +31,20 @@ public class SongDTO implements Validator {
     public void validate(Object target, Errors errors) {
         SongDTO songDTO = (SongDTO) target;
 
-        ValidationUtils.rejectIfEmpty(errors,"name","name","Không được để trống");
-        ValidationUtils.rejectIfEmpty(errors,"artist","artist","Không được để trống");
-        ValidationUtils.rejectIfEmpty(errors,"kindOfMusic","kindOfMusic","Không được để trống");
+        ValidationUtils.rejectIfEmpty(errors,"name","name"," Tên không được để trống");
+        ValidationUtils.rejectIfEmpty(errors,"artist","artist","Tác Giả không được để trống");
+        ValidationUtils.rejectIfEmpty(errors,"kindOfMusic","kindOfMusic","Thể Loại không được để trống");
 
         String name = songDTO.getName();
         String artist = songDTO.getArtist();
         String kindOfMusic = songDTO.getKindOfMusic();
-        if (!name.matches("^[a-zA-Z0-9]+$")){
+        if (!name.matches("^[a-zA-Z0-9\\s]+$")){
             errors.rejectValue("name","name","không đúng định dạng");
         }
-        if (!artist.matches("^[a-zA-Z0-9]+$")){
+        if (!artist.matches("^[a-zA-Z0-9\\s]+$")){
             errors.rejectValue("artist", "artist", "không đúng định dạng");
         }
-        if (!kindOfMusic.matches("^[a-zA-Z0-9,]+$")){
+        if (!kindOfMusic.matches("^[a-zA-Z0-9,\\s]+$")){
             errors.rejectValue("kindOfMusic", "kindOfMusic", "không đúng định dạng");
         }
     }

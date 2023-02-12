@@ -37,6 +37,6 @@ public class UserController {
         userService.save(user);
         model.addAttribute("users",user);
         attributes.addFlashAttribute("message", "Thêm Mới Thành Công");
-        return "resulf";
+        return "result";
     }
 }
