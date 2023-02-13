@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout::header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:replace="/layout::nav"></th:block>
+
+<h1>Book</h1>
+
+<p>
+    <a th:href="@{/book/pay}">
+        Give Book Back
+    </a>
+</p>
+
+<div class="notify">
+    <div th:if="${messages}">
+        <h2 th:text="${messages}" style="color: #4CAF50"></h2>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Rent</th>
+    </tr>
+    </thead>
+    <tbody class="table-group-divider">
+    <tr th:each="book:${books}">
+        <th scope="row" th:text="${book.getId()}"></th>
+        <td th:text="${book.getName()}"></td>
+        <td th:text="${book.getQuantity()}"></td>
+        <td><button type="button" class="btn btn-success"><a th:href="@{/book/{id}/rent(id=${book.getId()})}">Rent</a></button></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="notify">
+    <div th:if="${message}">
+        <h2 th:text="${message}" style="color: #4CAF50"></h2>
+    </div>
+</div>
+
+<form th:action="@{/book/payBook}" method="get">
+    <p>Enter the return code</p>
+    <input type="text" name="renId">
+    <button type="submit" class="btn btn-info">Return</button>
+</form>
+<footer th:replace="/layout::footer"></footer>
+</body>
+</html>

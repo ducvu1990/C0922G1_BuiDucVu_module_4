@@ -16,7 +16,7 @@ import java.util.List;
 
 public class SettingsController {
     @Autowired
-    SettingsRepository settingsRepository;
+    private SettingsRepository settingsRepository;
     @GetMapping()
     public String showList(Model model){
         List<String> settings = settingsRepository.findAllEmail();

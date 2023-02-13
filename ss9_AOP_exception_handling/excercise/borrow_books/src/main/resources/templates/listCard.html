@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout::header">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<th:block th:replace="/layout::nav"></th:block>
+
+<h1>Book</h1>
+
+<div class="notify">
+  <div th:if="${message}">
+    <h2 th:text="${message}" style="color: #4CAF50"></h2>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Name</th>
+    <th scope="col">Book Name</th>
+
+  </tr>
+  </thead>
+  <tbody class="table-group-divider">
+  <tr th:each="bookC:${bookLoanCard}">
+    <th scope="row" th:text="${bookC.getId()}"></th>
+    <td th:text="${bookC.getRentId()}"></td>
+    <td scope="row" th:text="${bookC.getBook().getName()}"></td>
+  </tr>
+  </tbody>
+</table>
+
+<footer th:replace="/layout::footer"></footer>
+</body>
+</html>
