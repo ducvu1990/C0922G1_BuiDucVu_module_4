@@ -19,7 +19,7 @@ public class BookController {
     private IBookService bookService;
     @Autowired
     private IBookLoanCarService bookLoanCarService;
-    @GetMapping("")
+    @GetMapping()
     public String showList(Model model){
         model.addAttribute("books", bookService.findAllBook());
         return "list";
@@ -66,10 +66,20 @@ public class BookController {
                 bookLoanCarService.remove(item);
                 redirectAttributes.addFlashAttribute("message", "return book successfully");
                     return "redirect:/book";
-
             }
         }
         redirectAttributes.addFlashAttribute("message", "the return code is not correct");
+        return "redirect:/book";
+    }
+    @GetMapping("/create")
+    public String createBook(Model model){
+        model.addAttribute("book",new Book());
+        return "create";
+    }
+    @PostMapping("/save")
+    public String save(@ModelAttribute Book book, RedirectAttributes attributes){
+        bookService.save(book);
+        attributes.addFlashAttribute("messages", "Add new successfully");
         return "redirect:/book";
     }
 }
