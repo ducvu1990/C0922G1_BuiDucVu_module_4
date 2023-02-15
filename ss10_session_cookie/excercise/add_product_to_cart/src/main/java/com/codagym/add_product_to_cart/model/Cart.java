@@ -69,4 +69,7 @@ public class Cart {
         }
         return payment;
     }
+    public void deleteAllProduct(){
+        products.clear();
+    }
 }

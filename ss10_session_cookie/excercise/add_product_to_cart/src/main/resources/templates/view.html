@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Shop</title>
+</head>
+<body>
+<p>
+  <a href="/shop">Shop</a>
+</p>
+<p th:if="${message}"><span th:text="${message}"></span></p>
+<table border="1">
+  <tr>
+    <td>Name</td>
+    <td th:text="${productView.get().name}"></td>
+  </tr>
+  <tr>
+    <td>Price</td>
+    <td th:text="${productView.get().price}"></td>
+  </tr>
+  <tr>
+    <td>Add To Cart</td>
+  <td th:text="${productView.get().description}"></td>
+  </tr>
+</table>
+</body>
+</html>
