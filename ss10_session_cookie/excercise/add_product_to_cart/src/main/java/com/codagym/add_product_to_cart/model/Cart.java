@@ -42,6 +42,16 @@ public class Cart {
             products.replace(itemEntry.getKey(),newQuantity);
         }
     }
+    public void deleteProduct(Product product){
+        Map.Entry<Product, Integer> itemEntry = selectItemInCart(product);
+        assert itemEntry != null;
+        if (itemEntry.getValue() == 1){
+            products.remove(itemEntry.getKey());
+        }else {
+            Integer newQuantity = itemEntry.getValue() -1;
+            products.replace(itemEntry.getKey(),newQuantity);
+        }
+    }
     public Integer countProductQuantity(){
         Integer productQuantity = 0;
         for (Map.Entry<Product, Integer> entry : products.entrySet()) {
