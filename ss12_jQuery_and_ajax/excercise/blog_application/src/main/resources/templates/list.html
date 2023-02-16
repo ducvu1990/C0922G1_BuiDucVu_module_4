@@ -10,7 +10,7 @@
 <h1>Blog List</h1>
 <form action="" method="get">
     <input type="text" id="searchName" name="name">
-    <button type="button" onclick="showList()"> search</button>
+    <button type="button" onclick="search()"> search</button>
 </form>
 <table border="1">
     <thead>
@@ -30,13 +30,21 @@
 <button type="button" onclick="more()">More</button>
 </body>
 <script>
+    $(document).ready(function () {
+        showList();
+    })
+    let size = 1;
+    function search(){
+        size = 1;
+        showList();
+    }
     function showList(){
         let searchName = $('#searchName').val();
-        let searchName1 = '?name=' +searchName;
+        let link = `http://localhost:8080/api/blog?name=${searchName}&size=${size}`;
         $.ajax({
             type: "Get",
             dataType: "json",
-            url: "http://localhost:8080/api/blog" + searchName1,
+            url: link,
             success: function (data){
                 console.log(data)
                 let content='';
@@ -58,15 +66,10 @@
             }
         })
     }
-    function more(){
-        let page = 0;
-        page += 2
-        $.ajax({
-            type: "get",
-            dataType: "json",
-            url: "http://localhost:8080/api/blog?page=" + page ,
 
-        })
+    function more(){
+        size += 2;
+        showList();
     }
 </script>
 </html>

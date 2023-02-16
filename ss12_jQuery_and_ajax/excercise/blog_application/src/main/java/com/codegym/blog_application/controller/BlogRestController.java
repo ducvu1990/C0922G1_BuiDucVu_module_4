@@ -21,7 +21,7 @@ public class BlogRestController {
     @GetMapping("")
     public ResponseEntity<Page<Blog>> getAll(@RequestParam(required = false,defaultValue = "") String name,
                                              @RequestParam(required = false,defaultValue = "0") int page,
-                                             @RequestParam(required = false,defaultValue = "0") int size){
+                                             @RequestParam(required = false,defaultValue = "2") int size){
         Pageable pageable = PageRequest.of(page,size);
         Page<Blog> blogPage = blogService.search(name, pageable);
         if (blogPage.isEmpty()){
