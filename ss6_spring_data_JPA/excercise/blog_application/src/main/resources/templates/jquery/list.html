@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+  <!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+</head>
+<script src="js.js"></script>
+<body>
+<h1>Blog List</h1>
+<!--<form action="" method="get">-->
+<!--    <input type="text" name="name">-->
+<!--    <boutton type="button" onclicck="showList()">Search</boutton>-->
+<!--</form>-->
+<table border="1">
+  <thead>
+  <tr>
+    <th>Id</th>
+    <th>Author</th>
+    <th>Name</th>
+    <th>DateCreate</th>
+    <th>Content</th>
+    <th>Category</th>
+  </tr>
+  </thead>
+  <tbody id="body">
+
+  </tbody>
+</table>
+</body>
+<script>
+  showList()
+  function showList(){
+    $.ajax({
+      type: "Get",
+      dataType: "json",
+      url: "http://localhost:8080/api/blog",
+      success: function (data){
+        console.log(data)
+        let content='';
+        let content1 = data.content;
+        for (let i = 0; i < content1.length; i++) {
+          content += `<tr>`
+          content += `<td>${content1[i].id}</td>`
+          content += `<td>${content1[i].author}</td>`
+          content += `<td>${content1[i].name}</td>`
+          content += `<td>${content1[i].dateCreate}</td>`
+          content += `<td>${content1[i].content}</td>`
+          content += `<td>${content1[i].category.name}</td>`
+          content += `</tr>`
+        }
+        $('#body').html(content);
+      },
+      error: function (){
+        alert("Không tìm thấy dữ liệu");
+      }
+    })
+  }
+</script>
+</html>
+
