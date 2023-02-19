@@ -1,7 +1,9 @@
 package com.codegym.furama_resort.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
+import java.util.Set;
+
 
 @Entity
 public class Employee {
@@ -28,11 +30,27 @@ public class Employee {
     @JoinColumn(name = "posisionId", referencedColumnName = "id", nullable = false)
     private Posision posision;
 
+    @ManyToOne
+    @JoinColumn(name = "educationDegreeId", referencedColumnName = "id", nullable = false)
+    private EducationDegree educationDegree;
+
+    @ManyToOne
+    @JoinColumn(name = "divisionId", referencedColumnName = "id", nullable = false)
+    private Division division;
+
+    @OneToOne
+    @JoinColumn(name = "userId", referencedColumnName = "userName")
+    private User user;
+
+    @OneToMany(mappedBy = "employee")
+    private Set<Contract> contracts;
+
     public Employee() {
     }
 
     public Employee(int id, String name, Date dateOfBirth, String idCard, double salary, String phoneNumber,
-                    String email, String address, Posision posision) {
+                    String email, String address, Posision posision, EducationDegree educationDegree, Division division,
+                    User user, Set<Contract> contracts) {
         this.id = id;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
@@ -42,6 +60,10 @@ public class Employee {
         this.email = email;
         this.address = address;
         this.posision = posision;
+        this.educationDegree = educationDegree;
+        this.division = division;
+        this.user = user;
+        this.contracts = contracts;
     }
 
     public int getId() {
@@ -114,5 +136,37 @@ public class Employee {
 
     public void setPosision(Posision posision) {
         this.posision = posision;
+    }
+
+    public EducationDegree getEducationDegree() {
+        return educationDegree;
+    }
+
+    public void setEducationDegree(EducationDegree educationDegree) {
+        this.educationDegree = educationDegree;
+    }
+
+    public Division getDivision() {
+        return division;
+    }
+
+    public void setDivision(Division division) {
+        this.division = division;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Set<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(Set<Contract> contracts) {
+        this.contracts = contracts;
     }
 }

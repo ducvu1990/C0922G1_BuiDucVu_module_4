@@ -1,25 +1,23 @@
 package com.codegym.furama_resort.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import java.util.Set;
 
 @Entity
-public class Posision {
+public class EducationDegree {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
     @Column(name = "name", length = 45, nullable = false)
-    @Max(value = 45)
     private String name;
-    @OneToMany(mappedBy = "posision")
+    @OneToMany(mappedBy = "educationDegree")
     private Set<Employee> employees;
 
-    public Posision() {
+    public EducationDegree() {
     }
 
-    public Posision(int id, String name, Set<Employee> employees) {
+    public EducationDegree(int id, String name, Set<Employee> employees) {
         this.id = id;
         this.name = name;
         this.employees = employees;

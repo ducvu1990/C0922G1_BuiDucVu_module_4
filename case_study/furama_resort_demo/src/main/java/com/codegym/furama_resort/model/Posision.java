@@ -10,7 +10,7 @@ public class Posision {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name = "name", length = 45, nullable = false)
+    @Column(name = "name", nullable = false)
     @Max(value = 45)
     private String name;
     @OneToMany(mappedBy = "posision")
