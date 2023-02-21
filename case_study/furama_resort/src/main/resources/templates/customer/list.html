@@ -101,7 +101,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Delete Customer</h5>
+                <h5 class="modal-title" id="editModalLabel">Edit Customer</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form th:action="@{/furama/edit}" th:object="${customer}" method="post">
@@ -161,7 +161,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-sm btn-primary">Delete</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Edit</button>
                 </div>
             </form>
 
