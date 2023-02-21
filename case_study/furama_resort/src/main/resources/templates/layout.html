@@ -10,18 +10,20 @@
     </script>
 </head>
 <body>
-<div class="row bg-white" th:fragment="header">
-    <div class="col-md-3 justify-content-center d-flex ">
-        <img src="https://ib.vib.com.vn/banners/Promotion/20220621154454120_furama.png" alt="logo" style="width: 60%">
+<center>
+    <div class="row bg-white" th:fragment="header">
+        <div class="col-md-3 justify-content-center d-flex ">
+            <img src="https://ib.vib.com.vn/banners/Promotion/20220621154454120_furama.png" alt="logo"
+                 style="width: 60%">
+        </div>
+        <div class="col-md-6" justify-content-center align-items-center d-flex>
+            <span th:if="${message}" th:text="${message}" class="text-info"></span>
+        </div>
+        <div class="col-md-3 justify-content-center align-items-center d-flex">
+            <h1 class="text-info" style="font-family: Magneto">Bui Duc Vu</h1>
+        </div>
     </div>
-    <div class="col-md-6" justify-content-center align-items-center d-flex>
-        <span th:if="${message}" th:text="${message}" class="text-info"></span>
-    </div>
-    <div class="col-md-3 justify-content-center align-items-center d-flex">
-        <h1 class="text-info" style="font-family: Magneto">Bui Duc Vu</h1>
-    </div>
-</div>
-
+</center>
 <div class="row bg-success" th:fragment="nav">
     <div class="col-md-2"></div>
     <div class="col-md-8 bg-">
@@ -31,28 +33,38 @@
                 <div class="collapse navbar-collapse" id="navbarScroll">
                     <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 
-<!--                        Employee button-->
+                        <!--                        Employee button-->
                         <li class="nav-item">
                             <a class="nav-link active text-white" aria-current="page"
                                href="/Employees">Employee</a>
                         </li>
-<!--                        Customer button-->
+                        <!--                        Customer button-->
                         <li class="nav-item">
                             <a class="nav-link text-white" href="/Customers">Customer</a>
                         </li>
 
-<!--                        Service button-->
+                        <!--                        Service button-->
                         <li class="nav-item dropdown">
                             <a class="nav-link text-white" href="/Facilitys">Service</a>
                         </li>
 
-<!--                        Contrac button-->
+                        <!--                        Contrac button-->
                         <li class="nav-item">
                             <a class="nav-link text-white" href="/Contracts">Contrac</a>
                         </li>
                     </ul>
                     <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                               name="name">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                               name="email">
+                        <select name="id">
+                            <option value=""></option>
+                            <option th:each="customerType:${customerTypes}"
+                                    th:value="${customerType.id}"
+                                    th:text="${customerType.name}">
+                            </option>
+                        </select>
                         <button class="btn text-white" type="submit">Search</button>
                     </form>
                 </div>
@@ -63,7 +75,8 @@
 </div>
 
 <div class="row">
-    <div class="col-md-1 justify-content-center d-flex" style="background-color: #a3cfbb; top: auto" th:fragment="leftContent">
+    <div class="col-md-1 justify-content-center d-flex" style="background-color: #a3cfbb; top: auto"
+         th:fragment="leftContent">
         <ul class="list-group">
             <li class="list-group-item disabled" style="font-size: x-large; background-color: #a3cfbb">item 0
             </li>
@@ -75,35 +88,52 @@
     </div>
     <div class="col-md-11 justify-content-center align-items-center d-flex">
         <div class="card text-bg-dark px-0 justify-content-center align-items-center d-flex w-100 h-100">
-            <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/23/cf/6a/fa/courtyard-night-time.jpg?w=1400&h=-1&s=1" class="card-img"
+            <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/23/cf/6a/fa/courtyard-night-time.jpg?w=1400&h=-1&s=1"
+                 class="card-img"
                  alt="img">
             <div class="card-img-overlay px-0">
                 <div class="row container-fluid">
-                    <h5 style="font-size: xxx-large; color: coral">KHU NGHỈ DƯỠNG ĐẲNG CẤP THẾ GIỚI FURAMA ĐÀ NẴNG, TỰ HÀO LÀ KHU NGHỈ
+                    <h5 style="font-size: xxx-large; color: coral">KHU NGHỈ DƯỠNG ĐẲNG CẤP THẾ GIỚI FURAMA ĐÀ NẴNG, TỰ
+                        HÀO LÀ KHU NGHỈ
                         DƯỠNG ẨM THỰC TẠI VIỆT NAM</h5>
                 </div>
                 <div class="row container-fluid">
-                    <p>Hướng ra bãi biển Đà Nẵng trải dài cát trắng, Furama Resort Đà Nẵng là cửa ngõ đến với 3 di sản văn
-                        hoá thế giới: Hội An (20 phút), Mỹ Sơn (90 phút) và Huế (2 tiếng. 196 phòng hạng sang cùng với 70
-                        căn biệt thự từ hai đến bốn phòng ngủ có hồ bơi riêng đều được trang trí trang nhã, theo phong cách
-                        thiết kế truyền thống của Việt Nam và kiến trúc thuộc địa của Pháp, biến Furama thành khu nghỉ dưỡng
-                        danh giá nhất tại Việt Nam – vinh dự được đón tiếp nhiều người nổi tiếng, giới hoàng gia, chính khách,
+                    <p>Hướng ra bãi biển Đà Nẵng trải dài cát trắng, Furama Resort Đà Nẵng là cửa ngõ đến với 3 di sản
+                        văn
+                        hoá thế giới: Hội An (20 phút), Mỹ Sơn (90 phút) và Huế (2 tiếng. 196 phòng hạng sang cùng với
+                        70
+                        căn biệt thự từ hai đến bốn phòng ngủ có hồ bơi riêng đều được trang trí trang nhã, theo phong
+                        cách
+                        thiết kế truyền thống của Việt Nam và kiến trúc thuộc địa của Pháp, biến Furama thành khu nghỉ
+                        dưỡng
+                        danh giá nhất tại Việt Nam – vinh dự được đón tiếp nhiều người nổi tiếng, giới hoàng gia, chính
+                        khách,
                         ngôi sao điện ảnh và các nhà lãnh đạo kinh doanh quốc tế.</p><br>
                     <p>Ẩm thực tại khu nghỉ dưỡng là trải nghiệm kết hợp giữa các món ăn Việt Nam, châu Á, Ý và châu Âu
-                        cùng các món bít tết nhập khẩu hảo hạng. Khu nghỉ dưỡng mang đến cho quý khách những không gian ẩm
-                        thực đa dạng bao gồm – quầy bar nhìn ra biển, hồ bơi Lagoon được bao quanh bởi khu vườn nhiệt đới,
-                        ẩm thực truyền thống Ý tại nhà hàng Don Cipriani’s, chất Á Đông tại Café Indochine hay nhà hàng bít
-                        tết “The Fan – Cái Quạt” nằm ngay trên bãi biển. Khu nghỉ dưỡng Furama Đà Nẵng còn gây ấn tượng và
-                        tạo nhiều thích thú cho khách thông qua các chương trình vui chơi đầy thú vị như các chuyến du ngoạn,
+                        cùng các món bít tết nhập khẩu hảo hạng. Khu nghỉ dưỡng mang đến cho quý khách những không gian
+                        ẩm
+                        thực đa dạng bao gồm – quầy bar nhìn ra biển, hồ bơi Lagoon được bao quanh bởi khu vườn nhiệt
+                        đới,
+                        ẩm thực truyền thống Ý tại nhà hàng Don Cipriani’s, chất Á Đông tại Café Indochine hay nhà hàng
+                        bít
+                        tết “The Fan – Cái Quạt” nằm ngay trên bãi biển. Khu nghỉ dưỡng Furama Đà Nẵng còn gây ấn tượng
+                        và
+                        tạo nhiều thích thú cho khách thông qua các chương trình vui chơi đầy thú vị như các chuyến du
+                        ngoạn,
                         thể thao trên nước, lặn biển và chơi golf cũng như các dịch vụ chăm sóc sức khoẻ và sắc đẹp.
 
                         Nằm tại vị trí đắc địa gần trung tâm Đà Nẵng và là nơi kết nối quốc tế thuận tiện đến Singapore,
                         Bangkok, Xiêm Riệp, Kuala Lumpur, Đài Loan, Tokyo, Osaka, Busan, Seoul, Tokyo, Osaka và
-                        Hồng Kông – Ma Cao, Trung Quốc bao gồm: Bắc Kinh, Thượng Hải, Hàng Châu, Quảng Châu, Thành Đô bằng
-                        các chuyến bay trực tiếp, khu nghỉ dưỡng Furama Đà Nẵng là điểm đến lý tưởng cho các đại lý du lịch,
-                        doanh nghiệp, công ty tổ chức sự kiện. Cung Hội nghị có thể chứa tới 3000 người, cùng với 10 phòng
-                        chức năng khác có sức chứa từ 50 đến 300 người. Cung hội nghị Ariyana Convention Centre (ACC) được
-                        xây dựng để tổ chức sự kiện APEC 2017, kết nối với Cung hội nghị Furama (ICP) tạo thành quần thể MICE
+                        Hồng Kông – Ma Cao, Trung Quốc bao gồm: Bắc Kinh, Thượng Hải, Hàng Châu, Quảng Châu, Thành Đô
+                        bằng
+                        các chuyến bay trực tiếp, khu nghỉ dưỡng Furama Đà Nẵng là điểm đến lý tưởng cho các đại lý du
+                        lịch,
+                        doanh nghiệp, công ty tổ chức sự kiện. Cung Hội nghị có thể chứa tới 3000 người, cùng với 10
+                        phòng
+                        chức năng khác có sức chứa từ 50 đến 300 người. Cung hội nghị Ariyana Convention Centre (ACC)
+                        được
+                        xây dựng để tổ chức sự kiện APEC 2017, kết nối với Cung hội nghị Furama (ICP) tạo thành quần thể
+                        MICE
                         lớn nhất Việt Nam có sức chứa lên tới 5,000 khách.
 
                         Một loạt các bữa tiệc theo chủ đề trên bãi biển hoặc xung quanh hồ Lagoon, trong phòng đại tiệc
@@ -118,16 +148,16 @@
     </div>
 </div>
 <footer th:fragment="footer">
-<div class="card text-center bg-danger">
-    <div class="card-header">
+    <div class="card text-center bg-danger">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <p class="card-text" style="font-size: xx-large">2023 @CodeGym.com</p>
+        </div>
+        <div class="card-footer text-muted">
+        </div>
     </div>
-    <div class="card-body">
-        <h5 class="card-title"></h5>
-        <p class="card-text" style="font-size: xx-large">2023 @CodeGym.com</p>
-    </div>
-    <div class="card-footer text-muted">
-    </div>
-</div>
 </footer>
 </body>
 </html>

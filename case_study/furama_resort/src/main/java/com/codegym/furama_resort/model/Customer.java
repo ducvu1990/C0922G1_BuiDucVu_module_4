@@ -21,7 +21,7 @@ public class Customer {
     @Column(name = "email", length = 45, unique = true)
     private String email;
     @Column(name = "address", length = 45)
-    private String addres;
+    private String address;
 
     @ManyToOne
     @JoinColumn(name = "customerTypeId", referencedColumnName = "id")
@@ -89,12 +89,12 @@ public class Customer {
         this.email = email;
     }
 
-    public String getAddres() {
-        return addres;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAddres(String addres) {
-        this.addres = addres;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public CustomerType getCustomerType() {

@@ -7,12 +7,12 @@ import com.codegym.furama_resort.service.ICustomerService;
 import com.codegym.furama_resort.service.ICustomerTypeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -34,8 +34,25 @@ public class CustomerController {
     public String save(@ModelAttribute CustomerDTO customerDTO, RedirectAttributes attributes){
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerDTO,customer);
-        customerService.save(customer);
-        attributes.addFlashAttribute("message", "Thêm Mới Thành Công");
+        if (customerService.save(customer)){
+            attributes.addFlashAttribute("message", "Thêm Mới Thành Công");
+            return "redirect:/furama/create";
+        }
+        attributes.addFlashAttribute("message", "Thêm Mới Không Thành Công");
         return "redirect:/furama/create";
+    }
+    @GetMapping("/search")
+    private String search(@RequestParam(required = false, defaultValue = "") String name,
+                          @RequestParam(required = false, defaultValue = "") String email,
+                          @RequestParam(required = false, defaultValue = "") String id,
+                          @RequestParam(required = false, defaultValue = "0") int page, Model model){
+        Pageable pageable = PageRequest.of(page, 2);
+        Page<Customer> customerPage = customerService.search(name, email, id, pageable);
+        model.addAttribute("customerPage", customerPage);
+        model.addAttribute("name", name);
+        model.addAttribute("email", email);
+        model.addAttribute("id", id);
+        model.addAttribute("customerTypes", customerTypeService.listCustomerType());
+        return "/customer/list";
     }
 }

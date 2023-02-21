@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout::head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="/layout::header"></div>
+<div th:replace="/layout::nav"></div>
+<div class="row">
+    <div th:replace="/layout::leftContent"></div>
+    <div class="col-md-11 vh-100">
+        <table id="table123" class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th hidden scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Birthday</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Id Card</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Customer Type Id</th>
+                <th scope="col">Address</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="customer,status:${customerPage}">
+                <td th:text="${status.count}"></td>
+                <td hidden th:text="${customer.getId()}"></td>
+                <td th:text="${customer.getName()}"></td>
+                <td th:text="${customer.getDateOfBirth()}"></td>
+
+                <td th:if="${customer.isGender()== true}" th:text="Nam"></td>
+                <td th:if="${customer.isGender()== false}" th:text="Nữ"></td>
+
+                <td th:text="${customer.getIdCard()}"></td>
+                <td th:text="${customer.getPhoneNumber()}"></td>
+                <td th:text="${customer.getEmail()}"></td>
+                <td th:text="${customer.getCustomerType().getName()}"></td>
+                <td th:text="${customer.getAddress()}"></td>
+                <td><a th:href="@{/customer/{id}/edit(id=${customer.getId()})}">Edit</a></td>
+                <td>
+                    <button th:attr="onclick=|infoDelete('${customer.getId()}','${customer.getName()}')|" type="button"
+                            class="btn btn-danger"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+        <span>
+    <a th:if="${customerPage.hasPrevious()}"
+       th:href="@{/furama/search(page=${customerPage.number}-1,name=${name},email=${email},id=${id})}">Trước</a></span>
+        <span th:text="${customerPage.number}+1+'/'"></span>
+        <span th:text="${customerPage.totalPages}"></span>
+        <span><a th:if="${customerPage.hasNext()}"
+                 th:href="@{/furama/search(page=${customerPage.number}+1,name=${name},email=${email},id=${id})}">Sau</a></span>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Customer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/Customers?action=delete" method="post">
+                <div class="modal-body">
+                    <input hidden type="text" id="deleteId" name="deleteId">
+                    <span>Do you want to delete an Customer </span>
+                    <span style="color: red" id="deleteName"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Delete</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<footer th:replace="/layout::footer"></footer>
+</body>
+<script>
+    function infoDelete(id, name) {
+        document.getElementById("deleteId").value = id;
+        document.getElementById("deleteName").innerText = name;
+    }
+</script>
+</html>

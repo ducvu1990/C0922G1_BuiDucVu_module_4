@@ -15,7 +15,7 @@ public class CustomerDTO {
     private String idCard;
     private String phoneNumber;
     private String email;
-    private String addres;
+    private String address;
 
     private CustomerType customerType;
 
@@ -25,7 +25,7 @@ public class CustomerDTO {
     }
 
     public CustomerDTO(int id, String name, Date dateOfBirth, boolean gender, String idCard, String phoneNumber,
-                       String email, String addres, CustomerType customerType, Set<Contract> contracts) {
+                       String email, String address, CustomerType customerType, Set<Contract> contracts) {
         this.id = id;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
@@ -33,7 +33,7 @@ public class CustomerDTO {
         this.idCard = idCard;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.addres = addres;
+        this.address = address;
         this.customerType = customerType;
         this.contracts = contracts;
     }
@@ -94,12 +94,12 @@ public class CustomerDTO {
         this.email = email;
     }
 
-    public String getAddres() {
-        return addres;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAddres(String addres) {
-        this.addres = addres;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public CustomerType getCustomerType() {
