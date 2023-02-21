@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ICustomerService {
-    public boolean save(Customer customer);
-    public Page<Customer> search(String name,String email, String id, Pageable pageable);
+     boolean save(Customer customer);
+     Page<Customer> search(String name,String email, String id, Pageable pageable);
+    void delete(int id);
+    void update(Customer customer);
 }

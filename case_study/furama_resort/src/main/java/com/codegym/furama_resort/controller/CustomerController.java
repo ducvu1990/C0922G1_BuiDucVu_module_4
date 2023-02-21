@@ -53,6 +53,21 @@ public class CustomerController {
         model.addAttribute("email", email);
         model.addAttribute("id", id);
         model.addAttribute("customerTypes", customerTypeService.listCustomerType());
+        model.addAttribute("customer", new CustomerDTO());
         return "/customer/list";
+    }
+    @PostMapping("/delete")
+    public String delete(@RequestParam int deleteId, RedirectAttributes attributes){
+        customerService.delete(deleteId);
+        attributes.addFlashAttribute("message", "Xóa Thành Công");
+        return "redirect:/furama/search";
+    }
+    @PostMapping("/edit")
+    public String edit(@ModelAttribute CustomerDTO customerDTO, RedirectAttributes attributes){
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customerDTO,customer);
+        customerService.update(customer);
+        attributes.addFlashAttribute("message", "Sửa Thành Công");
+        return "redirect:/furama/search";
     }
 }
