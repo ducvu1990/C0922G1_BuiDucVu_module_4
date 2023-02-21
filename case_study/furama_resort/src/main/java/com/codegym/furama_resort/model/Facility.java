@@ -8,7 +8,7 @@ public class Facility {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "name", length = 45)
+    @Column(name = "name", length = 45, unique = true)
     private String name;
     private int area;
     private double cost;
@@ -33,24 +33,6 @@ public class Facility {
     private Set<Contract> contracts;
 
     public Facility() {
-    }
-
-    public Facility(int id, String name, int area, double cost, int maxPeople, String standardRoom,
-                    String descriptionOtherConvenience, double poolArea, int numberOfFloors, String facilityFree,
-                    FacilityType facilityType, RentType rentType, Set<Contract> contracts) {
-        this.id = id;
-        this.name = name;
-        this.area = area;
-        this.cost = cost;
-        this.maxPeople = maxPeople;
-        this.standardRoom = standardRoom;
-        this.descriptionOtherConvenience = descriptionOtherConvenience;
-        this.poolArea = poolArea;
-        this.numberOfFloors = numberOfFloors;
-        this.facilityFree = facilityFree;
-        this.facilityType = facilityType;
-        this.rentType = rentType;
-        this.contracts = contracts;
     }
 
     public int getId() {

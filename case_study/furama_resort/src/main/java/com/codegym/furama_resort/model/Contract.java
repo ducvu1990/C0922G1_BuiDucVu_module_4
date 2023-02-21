@@ -31,18 +31,6 @@ public class Contract {
     public Contract() {
     }
 
-    public Contract(int id, Date startDate, Date endDate, double deposit, Employee employee, Customer customer,
-                    Facility facility, Set<ContractDetail> contractDetails) {
-        this.id = id;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.deposit = deposit;
-        this.employee = employee;
-        this.customer = customer;
-        this.facility = facility;
-        this.contractDetails = contractDetails;
-    }
-
     public int getId() {
         return id;
     }

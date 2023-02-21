@@ -22,15 +22,6 @@ public class AttachFacility {
     public AttachFacility() {
     }
 
-    public AttachFacility(int id, String name, double cost, String unit, String status, Set<ContractDetail> contractDetails) {
-        this.id = id;
-        this.name = name;
-        this.cost = cost;
-        this.unit = unit;
-        this.status = status;
-        this.contractDetails = contractDetails;
-    }
-
     public int getId() {
         return id;
     }

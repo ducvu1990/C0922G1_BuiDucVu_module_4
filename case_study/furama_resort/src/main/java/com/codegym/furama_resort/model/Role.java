@@ -17,12 +17,6 @@ public class Role {
     public Role() {
     }
 
-    public Role(int id, String roleName, Set<UserRole> userRoles) {
-        this.id = id;
-        this.roleName = roleName;
-        this.userRoles = userRoles;
-    }
-
     public int getId() {
         return id;
     }

@@ -17,12 +17,6 @@ public class CustomerType {
     public CustomerType() {
     }
 
-    public CustomerType(int id, String name, Set<Customer> customers) {
-        this.id = id;
-        this.name = name;
-        this.customers = customers;
-    }
-
     public int getId() {
         return id;
     }

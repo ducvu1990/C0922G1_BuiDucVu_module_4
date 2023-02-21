@@ -1,36 +1,41 @@
-package com.codegym.furama_resort.model;
+package com.codegym.furama_resort.dto;
 
-import javax.persistence.*;
+import com.codegym.furama_resort.model.Contract;
+import com.codegym.furama_resort.model.CustomerType;
+
+
 import java.sql.Date;
 import java.util.Set;
 
-@Entity
-public class Customer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CustomerDTO {
     private int id;
-    @Column(name = "name", length = 45)
     private String name;
-    @Column(name = "dateOfBirth")
     private Date dateOfBirth;
     private boolean gender;
-    @Column(name = "idCard", length = 45, unique = true)
     private String idCard;
-    @Column(name = "phoneNumber", length = 45, unique = true)
     private String phoneNumber;
-    @Column(name = "email", length = 45, unique = true)
     private String email;
-    @Column(name = "address", length = 45)
     private String addres;
 
-    @ManyToOne
-    @JoinColumn(name = "customerTypeId", referencedColumnName = "id")
     private CustomerType customerType;
 
-    @OneToMany(mappedBy = "customer")
     private Set<Contract> contracts;
 
-    public Customer() {
+    public CustomerDTO() {
+    }
+
+    public CustomerDTO(int id, String name, Date dateOfBirth, boolean gender, String idCard, String phoneNumber,
+                       String email, String addres, CustomerType customerType, Set<Contract> contracts) {
+        this.id = id;
+        this.name = name;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.idCard = idCard;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.addres = addres;
+        this.customerType = customerType;
+        this.contracts = contracts;
     }
 
     public int getId() {

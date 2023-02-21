@@ -20,12 +20,6 @@ public class UserRole {
     public UserRole() {
     }
 
-    public UserRole(int id, User user, Role role) {
-        this.id = id;
-        this.user = user;
-        this.role = role;
-    }
-
     public int getId() {
         return id;
     }

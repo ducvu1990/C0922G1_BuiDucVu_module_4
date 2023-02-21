@@ -11,19 +11,19 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name = "name")
+    @Column(name = "name",length = 45)
     private String name;
     @Column(name = "dateOfBirth")
     private Date dateOfBirth;
-    @Column(name = "idCard")
+    @Column(name = "idCard",length = 45, unique = true)
     private String idCard;
     @Column(name = "salary")
     private double salary;
-    @Column(name = "phoneNumber")
+    @Column(name = "phoneNumber",length = 45, unique = true)
     private String phoneNumber;
-    @Column(name = "email")
+    @Column(name = "email",length = 45, unique = true)
     private String email;
-    @Column(name = "address")
+    @Column(name = "address",length = 45)
     private String address;
 
     @ManyToOne
@@ -39,31 +39,14 @@ public class Employee {
     private Division division;
 
     @OneToOne
-    @JoinColumn(name = "userId", referencedColumnName = "userName")
+    @JoinColumn(name = "userId", referencedColumnName = "username")
+
     private User user;
 
     @OneToMany(mappedBy = "employee")
     private Set<Contract> contracts;
 
     public Employee() {
-    }
-
-    public Employee(int id, String name, Date dateOfBirth, String idCard, double salary, String phoneNumber,
-                    String email, String address, Posision posision, EducationDegree educationDegree, Division division,
-                    User user, Set<Contract> contracts) {
-        this.id = id;
-        this.name = name;
-        this.dateOfBirth = dateOfBirth;
-        this.idCard = idCard;
-        this.salary = salary;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.address = address;
-        this.posision = posision;
-        this.educationDegree = educationDegree;
-        this.division = division;
-        this.user = user;
-        this.contracts = contracts;
     }
 
     public int getId() {

@@ -1,14 +1,17 @@
 package com.codegym.furama_resort.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 public class User {
     @Id
-    @Column(name = "userName", length = 255, nullable = false)
-    private String userName;
+    @Column(name = "username", length = 255, nullable = false)
+    private String username;
     @Column(name = "password", length = 255, nullable = false)
+    @JsonIgnore
     private String password;
 
     @OneToOne(mappedBy = "user")
@@ -19,19 +22,12 @@ public class User {
     public User() {
     }
 
-    public User(String userName, String password, Employee employee, Set<UserRole> userRoles) {
-        this.userName = userName;
-        this.password = password;
-        this.employee = employee;
-        this.userRoles = userRoles;
+    public String getUsername() {
+        return username;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
