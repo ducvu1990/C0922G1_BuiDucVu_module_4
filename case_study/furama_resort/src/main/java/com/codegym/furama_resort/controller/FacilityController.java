@@ -29,13 +29,13 @@ public class FacilityController {
 
     @GetMapping("/search")
     private String search(@RequestParam(required = false, defaultValue = "") String name,
-                          @RequestParam(required = false, defaultValue = "") String facilityType,
+                          @RequestParam(required = false, defaultValue = "") String id,
                           @RequestParam(required = false, defaultValue = "0") int page, Model model){
         Pageable pageable = PageRequest.of(page, 5);
-        Page<Facility> facilityPage = facilityService.search(name, facilityType, pageable);
+        Page<Facility> facilityPage = facilityService.search(name, id, pageable);
         model.addAttribute("facilityPage", facilityPage);
         model.addAttribute("name", name);
-        model.addAttribute("id", facilityType);
+        model.addAttribute("id", id);
         model.addAttribute("facilityTypes", faciityTypeService.listFacilityType());
         model.addAttribute("rentTypes", rentTypeService.listRentType());
         model.addAttribute("facility", new FacilityDTO());
