@@ -6,7 +6,55 @@
 </head>
 <body>
 <div th:replace="/layout::header"></div>
-<div th:replace="/layout::nav"></div>
+<div class="row bg-success" th:fragment="nav">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 bg-">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white" th:href="@{/furama}">Home</a>
+                <div class="collapse navbar-collapse" id="navbarScroll">
+                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+
+                        <!--                        Employee button-->
+                        <li class="nav-item">
+                            <a class="nav-link active text-white" aria-current="page"
+                               href="/Employees">Employee</a>
+                        </li>
+                        <!--                        Customer button-->
+                        <li class="nav-item">
+                            <a class="nav-link text-white" th:href="@{/furama/search}">Customer</a>
+                        </li>
+
+                        <!--                        Service button-->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-white" th:href="@{/facility/search}">Service</a>
+                        </li>
+
+                        <!--                        Contrac button-->
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/Contracts">Contrac</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Name Search" aria-label="Search"
+                               name="name">
+                        <input class="form-control me-2" type="search" placeholder="Email Search" aria-label="Search"
+                               name="email">
+                        <select name="id" class="form-select" aria-label="Default select example">
+                            <option value="" disabled selected>Customer Type Search</option>
+                            <option th:each="customerType:${customerTypes}"
+                                    th:value="${customerType.id}"
+                                    th:text="${customerType.name}">
+                            </option>
+                        </select>
+                        <button class="btn btn-primary text-white" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="col-md-2"></div>
+</div>
 <div class="row">
     <div th:replace="/layout::leftContent"></div>
     <div class="col-md-11 vh-100">
@@ -46,7 +94,7 @@
                 <td>
                     <button th:attr="onclick=|infoEdit('${customer.getId()}','${customer.getName()}','${customer.getDateOfBirth()}',
                     '${customer.isGender()}','${customer.getIdCard()}','${customer.getPhoneNumber()}','${customer.getEmail()}',
-                    '${customer.getCustomerType().getName()}','${customer.getAddress()}')|" type="button"
+                    '${customer.getCustomerType().getId()}','${customer.getAddress()}')|" type="button"
                             class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editModal">
                         Edit
                     </button>
@@ -123,8 +171,8 @@
                         <tr>
                             <th scope="col">Gender</th>
                             <td>
-                                <input type="radio" id="Gtrue" th:field="*{gender}" th:value="true">Male
-                                <input type="radio" id="Gfalse" th:field="*{gender}" th:value="false">Female
+                                <input type="radio" id="genderTrue" th:field="*{gender}" th:value="true">Male
+                                <input type="radio" id="genderFalse" th:field="*{gender}" th:value="false">Female
                             </td>
                         </tr>
                         <tr>
@@ -142,8 +190,8 @@
                         <tr>
                             <th scope="col">Customer Type</th>
                             <td>
-                                <span id="Type"></span>
-                                <select th:field="*{customerType}">
+                                <span ></span>
+                                <select th:field="*{customerType}" id="cuType">
                                     <option th:each="customerType:${customerTypes}"
                                             th:value="${customerType.id}"
                                             th:text="${customerType.name}">
@@ -180,14 +228,14 @@
         document.getElementById("name").value=name;
         document.getElementById("birthday").value=dateOfBirth;
         if (gender){
-            document.getElementById("Gtrue").value=gender;
+            document.getElementById("genderTrue").value=gender;
         }else {
-            document.getElementById("Gfalse").value=gender;
+            document.getElementById("genderFalse").value=gender;
         }
         document.getElementById("idCard").value=idCard;
         document.getElementById("phone").value=phoneNumber;
         document.getElementById("email").value=email;
-        document.getElementById("Type").value=customerTypeName;
+        document.getElementById("cuType").value=customerTypeName;
         document.getElementById("address").value=address;
     }
 </script>

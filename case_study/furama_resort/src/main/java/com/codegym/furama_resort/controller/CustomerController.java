@@ -2,7 +2,6 @@ package com.codegym.furama_resort.controller;
 
 import com.codegym.furama_resort.dto.CustomerDTO;
 import com.codegym.furama_resort.model.Customer;
-import com.codegym.furama_resort.model.CustomerType;
 import com.codegym.furama_resort.service.ICustomerService;
 import com.codegym.furama_resort.service.ICustomerTypeService;
 import org.springframework.beans.BeanUtils;
@@ -15,7 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
+
 
 @Controller
 @RequestMapping("/furama")
@@ -24,6 +23,10 @@ public class CustomerController {
     private ICustomerService customerService;
     @Autowired
     private ICustomerTypeService customerTypeService;
+    @GetMapping("")
+    public String home(){
+        return "/layout";
+    }
     @GetMapping("/create")
     public String showFormCreateCustomer(Model model){
         model.addAttribute("customer", new CustomerDTO());
@@ -46,7 +49,7 @@ public class CustomerController {
                           @RequestParam(required = false, defaultValue = "") String email,
                           @RequestParam(required = false, defaultValue = "") String id,
                           @RequestParam(required = false, defaultValue = "0") int page, Model model){
-        Pageable pageable = PageRequest.of(page, 2);
+        Pageable pageable = PageRequest.of(page, 5);
         Page<Customer> customerPage = customerService.search(name, email, id, pageable);
         model.addAttribute("customerPage", customerPage);
         model.addAttribute("name", name);

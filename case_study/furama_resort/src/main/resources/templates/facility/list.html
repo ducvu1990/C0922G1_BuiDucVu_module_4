@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout::head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="/layout::header"></div>
+<div class="row bg-success" th:fragment="nav">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 bg-">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white" th:href="@{/furama}">Home</a>
+                <div class="collapse navbar-collapse" id="navbarScroll">
+                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+
+                        <!--                        Employee button-->
+                        <li class="nav-item">
+                            <a class="nav-link active text-white" aria-current="page"
+                               href="/Employees">Employee</a>
+                        </li>
+                        <!--                        Customer button-->
+                        <li class="nav-item">
+                            <a class="nav-link text-white" th:href="@{/furama/search}">Customer</a>
+                        </li>
+
+                        <!--                        Service button-->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-white" th:href="@{/facility/search}">Service</a>
+                        </li>
+
+                        <!--                        Contrac button-->
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/Contracts">Contrac</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex" role="search" th:action="@{/furama/search}">
+                        <input class="form-control me-2" type="search" placeholder="Name Search" aria-label="Search"
+                               name="name">
+                        <select name="id" class="form-select" aria-label="Default select example">
+                            <option value="" disabled selected>Facility Type Search</option>
+                            <option th:each="facilityType:${facilityTypes}"
+                                    th:value="${facilityType.id}"
+                                    th:text="${facilityType.name}">
+                            </option>
+                        </select>
+                        <button class="btn btn-primary text-white" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<div class="row">
+    <div th:replace="/layout::leftContent"></div>
+    <div class="col-md-11 vh-100">
+        <p>
+            <button type="button"
+                    class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#createModal">
+                Add New Facility
+            </button>
+        </p>
+        <table id="table123" class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th hidden scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Area</th>
+                <th scope="col">Cost</th>
+                <th scope="col">Max People</th>
+                <th scope="col">Standard Room</th>
+                <th scope="col">Description Other Convenience</th>
+                <th scope="col">Pool Area</th>
+                <th scope="col">Number Of Floors</th>
+                <th scope="col">Facility Free</th>
+                <th scope="col">Facility Type</th>
+                <th scope="col">Rent Type</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="facility,status:${facilityPage}">
+                <td th:text="${status.count}"></td>
+                <td hidden th:text="${facility.getId()}"></td>
+                <td th:text="${facility.getName()}"></td>
+                <td th:text="${facility.getArea()}"></td>
+                <td th:text="${facility.getCost()}"></td>
+                <td th:text="${facility.getMaxPeople()}"></td>
+                <td th:text="${facility.getStandardRoom()}"></td>
+                <td th:text="${facility.getDescriptionOtherConvenience()}"></td>
+                <td th:text="${facility.getPoolArea()}"></td>
+                <td th:text="${facility.getNumberOfFloors()}"></td>
+                <td th:text="${facility.getFacilityFree()}"></td>
+                <td th:text="${facility.getFacilityType().getName()}"></td>
+                <td th:text="${facility.getRentType().getName()}"></td>
+                <td>
+                    <button th:attr="onclick=|infoEdit('${facility.getId()}','${facility.getName()}','${facility.getArea()}',
+                    '${facility.getCost()}','${facility.getMaxPeople()}','${facility.getStandardRoom()}',
+                    '${facility.getDescriptionOtherConvenience()}','${facility.getPoolArea()}',
+                    '${facility.getNumberOfFloors()}','${facility.getFacilityFree()}','${facility.getFacilityType().getId()}',
+                    '${facility.getRentType().getId()}')|" type="button"
+                            class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editModal">
+                        Edit
+                    </button>
+                </td>
+                <td>
+                    <button th:attr="onclick=|infoDelete('${facility.getId()}','${facility.getName()}')|" type="button"
+                            class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+        <span>
+    <a th:if="${facilityPage.hasPrevious()}"
+       th:href="@{/facility/search(page=${facilityPage.number}-1,name=${name},id=${id})}">Trước</a></span>
+        <span th:text="${facilityPage.number}+1+'/'"></span>
+        <span th:text="${facilityPage.totalPages}"></span>
+        <span><a th:if="${facilityPage.hasNext()}"
+                 th:href="@{/facility/search(page=${facilityPage.number}+1,name=${name},id=${id})}">Sau</a></span>
+    </div>
+</div>
+
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Facility</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form th:action="@{/facility/delete}" method="post">
+                <div class="modal-body">
+                    <input hidden type="text" id="deleteId" name="deleteId">
+                    <span>Do you want to delete an Facility </span>
+                    <span style="color: red" id="deleteName"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Delete</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Customer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form th:action="@{/facility/edit}" th:object="${facility}" method="post">
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                        <tr hidden>
+                            <th scope="col">ID</th>
+                            <td><input type="text" id="id" th:field="*{id}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <td><input type="text" id="name" th:field="*{name}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Area</th>
+                            <td><input type="text" id="area" th:field="*{area}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Aost</th>
+                            <td><input type="text" id="cost" th:field="*{cost}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Max People</th>
+                            <td><input type="text" id="maxPeople" th:field="*{maxPeople}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Standard Room</th>
+                            <td><input type="text" id="standardRoom" th:field="*{standardRoom}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Description Other Convenience</th>
+                            <td><input type="text" id="descriptionOtherConvenience"
+                                       th:field="*{descriptionOtherConvenience}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Pool Area</th>
+                            <td><input type="text" id="poolArea" th:field="*{poolArea}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Number Of Floors</th>
+                            <td><input type="text" id="numberOfFloors" th:field="*{numberOfFloors}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Facility Free</th>
+                            <td><input type="text" id="facilityFree" th:field="*{facilityFree}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Facility Type</th>
+                            <td>
+                                <select th:field="*{facilityType}" id="faType" onchange="addFacilityType()">
+                                    <option th:each="facilityType:${facilityTypes}"
+                                            th:value="${facilityType.id}"
+                                            th:text="${facilityType.name}">
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Rent Type</th>
+                            <td>
+                                <select th:field="*{rentType}" id="reType">
+                                    <option th:each="rentType:${rentTypes}"
+                                            th:value="${rentType.id}"
+                                            th:text="${rentType.name}">
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                        </thead>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Edit Customer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form th:action="@{/facility/save}" th:object="${facility}" method="post">
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                        <tr hidden>
+                            <th scope="col">ID</th>
+                            <td><input type="text" id="createId" th:field="*{id}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <td><input type="text" id="createName" th:field="*{name}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Area</th>
+                            <td><input type="text" id="createArea" th:field="*{area}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Aost</th>
+                            <td><input type="text" id="createCost" th:field="*{cost}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Max People</th>
+                            <td><input type="text" id="createMaxPeople" th:field="*{maxPeople}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Standard Room</th>
+                            <td><input type="text" id="createStandardRoom" th:field="*{standardRoom}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Description Other Convenience</th>
+                            <td><input type="text" id="createDescriptionOtherConvenience"
+                                       th:field="*{descriptionOtherConvenience}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Pool Area</th>
+                            <td><input type="text" id="createPoolArea" th:field="*{poolArea}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Number Of Floors</th>
+                            <td><input type="text" id="createNumberOfFloors" th:field="*{numberOfFloors}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Facility Free</th>
+                            <td><input type="text" id="createFacilityFree" th:field="*{facilityFree}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Facility Type</th>
+                            <td>
+                                <select th:field="*{facilityType}" id="createFaType" onchange="addFacilityTypeToCreate()">
+                                    <option th:each="facilityType:${facilityTypes}"
+                                            th:value="${facilityType.id}"
+                                            th:text="${facilityType.name}">
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Rent Type</th>
+                            <td>
+                                <select th:field="*{rentType}" id="createReType">
+                                    <option th:each="rentType:${rentTypes}"
+                                            th:value="${rentType.id}"
+                                            th:text="${rentType.name}">
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                        </thead>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<footer th:replace="/layout::footer"></footer>
+</body>
+<script>
+    function infoDelete(id, name) {
+        document.getElementById("deleteId").value = id;
+        document.getElementById("deleteName").innerText = name;
+    }
+
+    function infoEdit(id, name, area, cost, maxPeople, standardRoom, descriptionOtherConvenience, poolArea, numberOfFloors,
+                      facilityFree, facilityType, rentType) {
+        document.getElementById("id").value = id;
+        document.getElementById("name").value = name;
+        document.getElementById("cost").value = cost;
+        document.getElementById("maxPeople").value = maxPeople;
+        document.getElementById("standardRoom").value = standardRoom;
+        document.getElementById("descriptionOtherConvenience").value = descriptionOtherConvenience;
+        document.getElementById("poolArea").value = poolArea;
+        document.getElementById("numberOfFloors").value = numberOfFloors;
+        document.getElementById("facilityFree").value = facilityFree;
+        document.getElementById("faType").value = facilityType;
+        document.getElementById("reType").value = rentType;
+    }
+    function addFacilityType(){
+       let facilityType = document.getElementById("faType").value;
+       if (facilityType==1){
+           document.getElementById("standardRoom").style.display = "flex";
+           document.getElementById("descriptionOtherConvenience").style.display = "flex";
+           document.getElementById("poolArea").style.display = "flex";
+           document.getElementById("numberOfFloors").style.display = "flex";
+           document.getElementById("facilityFree").style.display = "none";
+           document.getElementById("faType").value = 1;
+       }else if (facilityType==2){
+           document.getElementById("standardRoom").style.display = "flex";
+           document.getElementById("descriptionOtherConvenience").style.display = "flex";
+           document.getElementById("poolArea").style.display = "none";
+           document.getElementById("numberOfFloors").style.display = "flex";
+           document.getElementById("facilityFree").style.display = "none";
+           document.getElementById("faType").value = 2;
+       }else {
+           document.getElementById("standardRoom").style.display = "none";
+           document.getElementById("descriptionOtherConvenience").style.display = "none";
+           document.getElementById("poolArea").style.display = "none";
+           document.getElementById("numberOfFloors").style.display = "none";
+           document.getElementById("facilityFree").style.display = "flex";
+           document.getElementById("faType").value = 3;
+       }
+
+    }
+    function addFacilityTypeToCreate() {
+        let facilityType = document.getElementById("createFaType").value;
+        if (facilityType == 1) {
+            document.getElementById("createStandardRoom").style.display = "flex";
+            document.getElementById("createDescriptionOtherConvenience").style.display = "flex";
+            document.getElementById("createPoolArea").style.display = "flex";
+            document.getElementById("createNumberOfFloors").style.display = "flex";
+            document.getElementById("createFacilityFree").style.display = "none";
+            document.getElementById("createFaType").value = 1;
+        } else if (facilityType == 2) {
+            document.getElementById("createStandardRoom").style.display = "flex";
+            document.getElementById("createDescriptionOtherConvenience").style.display = "flex";
+            document.getElementById("createPoolArea").style.display = "none";
+            document.getElementById("createNumberOfFloors").style.display = "flex";
+            document.getElementById("createFacilityFree").style.display = "none";
+            document.getElementById("createFaType").value = 2;
+        } else {
+            document.getElementById("createStandardRoom").style.display = "none";
+            document.getElementById("createDescriptionOtherConvenience").style.display = "none";
+            document.getElementById("createPoolArea").style.display = "none";
+            document.getElementById("createNumberOfFloors").style.display = "none";
+            document.getElementById("createFacilityFree").style.display = "flex";
+            document.getElementById("createFaType").value = 3;
+        }
+    }
+</script>
+</html>

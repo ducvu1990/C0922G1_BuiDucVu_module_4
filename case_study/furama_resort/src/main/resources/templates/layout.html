@@ -29,7 +29,7 @@
     <div class="col-md-8 bg-">
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
-                <a class="navbar-brand text-white" href="/index.jsp">Home</a>
+                <a class="navbar-brand text-white" th:href="@{/furama}">Home</a>
                 <div class="collapse navbar-collapse" id="navbarScroll">
                     <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 
@@ -40,12 +40,12 @@
                         </li>
                         <!--                        Customer button-->
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="/Customers">Customer</a>
+                            <a class="nav-link text-white" th:href="@{/furama/search}">Customer</a>
                         </li>
 
                         <!--                        Service button-->
                         <li class="nav-item dropdown">
-                            <a class="nav-link text-white" href="/Facilitys">Service</a>
+                            <a class="nav-link text-white" th:href="@{/facility/search}">Service</a>
                         </li>
 
                         <!--                        Contrac button-->
@@ -54,18 +54,9 @@
                         </li>
                     </ul>
                     <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                        <input class="form-control me-2" type="search" placeholder="Name Search" aria-label="Search"
                                name="name">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                               name="email">
-                        <select name="id">
-                            <option value=""></option>
-                            <option th:each="customerType:${customerTypes}"
-                                    th:value="${customerType.id}"
-                                    th:text="${customerType.name}">
-                            </option>
-                        </select>
-                        <button class="btn text-white" type="submit">Search</button>
+                        <button class="btn btn-primary text-white" type="submit">Search</button>
                     </form>
                 </div>
             </div>
