@@ -66,7 +66,7 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th hidden scope="col">Id</th>
+                <th scope="col">Id</th>
                 <th scope="col">Facility Name</th>
                 <th scope="col">Customer Name</th>
                 <th scope="col">Start Date</th>
@@ -80,7 +80,7 @@
 
             <tr th:each="contract,status:${contracts}">
                 <td th:text="${status.count}"></td>
-                <td hidden th:text="${contract.getContractId()}"></td>
+                <td th:text="${contract.getContractId()}"></td>
                 <td th:text="${contract.getFacilityName()}"></td>
                 <td th:text="${contract.getCustomerName()}"></td>
                 <td th:text="${contract.getStartDate()}"></td>
@@ -88,8 +88,8 @@
                 <td th:text="${contract.getDeposit()}"></td>
                 <td th:text="${contract.getTotalCost()}"></td>
                 <td>
-                    <button th:attr="onclick=|infoAddAttachFacility('${contract.getContractId()}'|" type="button"
-                            class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#AddAttachFacilityModal">
+                    <button th:attr="onclick=|infoAddContractDetail('${contract.getContractId()}')|" type="button"
+                            class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#AddContractDetailModal">
                         +
                     </button>
 
@@ -138,79 +138,35 @@
 <!--</div>-->
 
 <!-- List Attach Facility Modal -->
-<div class="modal fade" id="ListAttachFacilityModal" tabindex="-1" aria-labelledby="ListAttachFacilityModalLabel" aria-hidden="true">
+<div class="modal fade" id="AddContractDetailModal" tabindex="-1" aria-labelledby="AddContractDetailModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="ListAttachFacilityModalLabel">Edit Customer</h5>
+                <h5 class="modal-title" id="AddContractDetailModalLabel">Edit Customer</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form th:action="@{/facility/edit}" th:object="${facility}" method="post">
+            <form th:action="@{/contract/addContractDetail}" th:object="${contractDetail}" method="post">
                 <div class="modal-body">
                     <table class="table">
                         <thead>
-                        <tr hidden>
+                        <tr >
                             <th scope="col">ID</th>
-                            <td><input type="text" id="id" th:field="*{id}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <td><input type="text" id="name" th:field="*{name}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Area</th>
-                            <td><input type="text" id="area" th:field="*{area}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Aost</th>
-                            <td><input type="text" id="cost" th:field="*{cost}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Max People</th>
-                            <td><input type="text" id="maxPeople" th:field="*{maxPeople}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Standard Room</th>
-                            <td><input type="text" id="standardRoom" th:field="*{standardRoom}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Description Other Convenience</th>
-                            <td><input type="text" id="descriptionOtherConvenience"
-                                       th:field="*{descriptionOtherConvenience}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Pool Area</th>
-                            <td><input type="text" id="poolArea" th:field="*{poolArea}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Number Of Floors</th>
-                            <td><input type="text" id="numberOfFloors" th:field="*{numberOfFloors}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Facility Free</th>
-                            <td><input type="text" id="facilityFree" th:field="*{facilityFree}"></td>
+                            <td><input type="text" id="contractId" th:field="*{contract}"></td>
                         </tr>
                         <tr>
                             <th scope="col">Facility Type</th>
-                            <td>
-                                <select th:field="*{facilityType}" id="faType" onchange="addFacilityType()">
-                                    <option th:each="facilityType:${facilityTypes}"
-                                            th:value="${facilityType.id}"
-                                            th:text="${facilityType.name}">
-                                    </option>
-                                </select>
-                            </td>
+                            <th scope="col">Name</th>
                         </tr>
                         <tr>
-                            <th scope="col">Rent Type</th>
                             <td>
-                                <select th:field="*{rentType}" id="reType">
-                                    <option th:each="rentType:${rentTypes}"
-                                            th:value="${rentType.id}"
-                                            th:text="${rentType.name}">
+                                <select th:field="*{attachFacility}" id="faType" class="form-select">
+                                    <option th:each="attachFacility:${attachFacilitys}"
+                                            th:value="${attachFacility.id}"
+                                            th:text="${attachFacility.name}">
                                     </option>
                                 </select>
                             </td>
+                            <td><input type="number" class="form-control" style="width: 100px" th:field="*{quantity}"></td>
                         </tr>
                         </thead>
                     </table>
@@ -218,7 +174,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Add Contract Detail</button>
                 </div>
             </form>
 
@@ -227,97 +183,97 @@
 </div>
 
 <!-- Add New Contract Modal -->
-<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createModalLabel">Edit Customer</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form th:action="@{/facility/save}" th:object="${facility}" method="post">
-                <div class="modal-body">
-                    <table class="table">
-                        <thead>
-                        <tr hidden>
-                            <th scope="col">ID</th>
-                            <td><input type="text" id="createId" th:field="*{id}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <td><input type="text" id="createName" th:field="*{name}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Area</th>
-                            <td><input type="text" id="createArea" th:field="*{area}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Aost</th>
-                            <td><input type="text" id="createCost" th:field="*{cost}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Max People</th>
-                            <td><input type="text" id="createMaxPeople" th:field="*{maxPeople}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Standard Room</th>
-                            <td><input type="text" id="createStandardRoom" th:field="*{standardRoom}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Description Other Convenience</th>
-                            <td><input type="text" id="createDescriptionOtherConvenience"
-                                       th:field="*{descriptionOtherConvenience}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Pool Area</th>
-                            <td><input type="text" id="createPoolArea" th:field="*{poolArea}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Number Of Floors</th>
-                            <td><input type="text" id="createNumberOfFloors" th:field="*{numberOfFloors}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Facility Free</th>
-                            <td><input type="text" id="createFacilityFree" th:field="*{facilityFree}"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Facility Type</th>
-                            <td>
-                                <select th:field="*{facilityType}" id="createFaType" onchange="addFacilityTypeToCreate()">
-                                    <option th:each="facilityType:${facilityTypes}"
-                                            th:value="${facilityType.id}"
-                                            th:text="${facilityType.name}">
-                                    </option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Rent Type</th>
-                            <td>
-                                <select th:field="*{rentType}" id="createReType">
-                                    <option th:each="rentType:${rentTypes}"
-                                            th:value="${rentType.id}"
-                                            th:text="${rentType.name}">
-                                    </option>
-                                </select>
-                            </td>
-                        </tr>
-                        </thead>
-                    </table>
+<!--<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title" id="createModalLabel">Edit Customer</h5>-->
+<!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--            </div>-->
+<!--            <form th:action="@{/facility/save}" th:object="${facility}" method="post">-->
+<!--                <div class="modal-body">-->
+<!--                    <table class="table">-->
+<!--                        <thead>-->
+<!--                        <tr hidden>-->
+<!--                            <th scope="col">ID</th>-->
+<!--                            <td><input type="text" id="createId" th:field="*{id}"></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <th scope="col">Name</th>-->
+<!--                            <td><input type="text" id="createName" th:field="*{name}"></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <th scope="col">Area</th>-->
+<!--                            <td><input type="text" id="createArea" th:field="*{area}"></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <th scope="col">Aost</th>-->
+<!--                            <td><input type="text" id="createCost" th:field="*{cost}"></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <th scope="col">Max People</th>-->
+<!--                            <td><input type="text" id="createMaxPeople" th:field="*{maxPeople}"></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <th scope="col">Standard Room</th>-->
+<!--                            <td><input type="text" id="createStandardRoom" th:field="*{standardRoom}"></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <th scope="col">Description Other Convenience</th>-->
+<!--                            <td><input type="text" id="createDescriptionOtherConvenience"-->
+<!--                                       th:field="*{descriptionOtherConvenience}"></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <th scope="col">Pool Area</th>-->
+<!--                            <td><input type="text" id="createPoolArea" th:field="*{poolArea}"></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <th scope="col">Number Of Floors</th>-->
+<!--                            <td><input type="text" id="createNumberOfFloors" th:field="*{numberOfFloors}"></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <th scope="col">Facility Free</th>-->
+<!--                            <td><input type="text" id="createFacilityFree" th:field="*{facilityFree}"></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <th scope="col">Facility Type</th>-->
+<!--                            <td>-->
+<!--                                <select th:field="*{facilityType}" id="createFaType" onchange="addFacilityTypeToCreate()">-->
+<!--                                    <option th:each="facilityType:${facilityTypes}"-->
+<!--                                            th:value="${facilityType.id}"-->
+<!--                                            th:text="${facilityType.name}">-->
+<!--                                    </option>-->
+<!--                                </select>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <th scope="col">Rent Type</th>-->
+<!--                            <td>-->
+<!--                                <select th:field="*{rentType}" id="createReType">-->
+<!--                                    <option th:each="rentType:${rentTypes}"-->
+<!--                                            th:value="${rentType.id}"-->
+<!--                                            th:text="${rentType.name}">-->
+<!--                                    </option>-->
+<!--                                </select>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                    </table>-->
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
-                </div>
-            </form>
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>-->
+<!--                    <button type="submit" class="btn btn-sm btn-primary">Save</button>-->
+<!--                </div>-->
+<!--            </form>-->
 
-        </div>
-    </div>
-</div>
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 <footer th:replace="/layout::footer"></footer>
 </body>
 <script>
-    function infoAddAttachFacility(id) {
+    function infoAddContractDetail(id) {
         document.getElementById("contractId").value = id;
     }
 
