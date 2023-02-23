@@ -18,4 +18,7 @@ public interface ICustomerRepository extends JpaRepository<Customer,Integer> {
             " and customer_type_id like concat('%',:id,'%')", nativeQuery = true)
     Page<Customer> findByNameContaining(@Param("name") String name,@Param("email") String email,@Param("id") String id,
                                         Pageable pageable);
+    Customer findByEmail(String email);
+    Customer findByPhoneNumber(String phoneNumber);
+    Customer findByIdCard(String idCard);
 }

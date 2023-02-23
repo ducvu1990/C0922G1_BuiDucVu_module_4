@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface IFacilityService {
     boolean save(Facility facility);
-    Page<Facility> search(String name,String id, Pageable pageable);
+    Page<Facility> search(String name,String FacilityTypeName, Pageable pageable);
     void delete(int id);
     void update(Facility facility);
 }

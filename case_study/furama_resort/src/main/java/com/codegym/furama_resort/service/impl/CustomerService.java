@@ -1,7 +1,6 @@
 package com.codegym.furama_resort.service.impl;
 
 import com.codegym.furama_resort.model.Customer;
-import com.codegym.furama_resort.model.CustomerType;
 import com.codegym.furama_resort.repository.ICustomerRepository;
 import com.codegym.furama_resort.repository.ICustomerTypeRepository;
 import com.codegym.furama_resort.service.ICustomerService;
@@ -16,16 +15,12 @@ import java.util.List;
 public class CustomerService implements ICustomerService {
     @Autowired
     private ICustomerRepository customerRepository;
-    @Autowired
-    private ICustomerTypeRepository customerTypeRepository;
     @Override
     public boolean save(Customer customer) {
-        List<Customer> customers = customerRepository.findAll();
-        for (Customer item :customers) {
-            if (item.getIdCard().equals(customer.getIdCard())){
-                return false;
-            }
-        }
+       if (customerRepository.findByEmail(customer.getEmail())!=null||customerRepository.findByIdCard(customer.getIdCard())!=null
+       ||customerRepository.findByPhoneNumber(customer.getPhoneNumber())!=null){
+           return false;
+       }
         customerRepository.save(customer);
         return true;
     }

@@ -1,8 +1,6 @@
 package com.codegym.furama_resort.controller;
 
-import com.codegym.furama_resort.dto.CustomerDTO;
 import com.codegym.furama_resort.dto.FacilityDTO;
-import com.codegym.furama_resort.model.Customer;
 import com.codegym.furama_resort.model.Facility;
 import com.codegym.furama_resort.service.IFaciityTypeService;
 import com.codegym.furama_resort.service.IFacilityService;
@@ -23,7 +21,7 @@ public class FacilityController {
     @Autowired
     private IFacilityService facilityService;
     @Autowired
-    private IFaciityTypeService faciityTypeService;
+    private IFaciityTypeService facilityTypeService;
     @Autowired
     private IRentTypeService rentTypeService;
 
@@ -36,7 +34,7 @@ public class FacilityController {
         model.addAttribute("facilityPage", facilityPage);
         model.addAttribute("name", name);
         model.addAttribute("id", id);
-        model.addAttribute("facilityTypes", faciityTypeService.listFacilityType());
+        model.addAttribute("facilityTypes", facilityTypeService.listFacilityType());
         model.addAttribute("rentTypes", rentTypeService.listRentType());
         model.addAttribute("facility", new FacilityDTO());
         return "/facility/list";

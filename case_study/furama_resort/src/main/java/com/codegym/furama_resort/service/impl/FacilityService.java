@@ -16,19 +16,16 @@ public class FacilityService implements IFacilityService {
     private IFacilityRepository facilityRepository;
     @Override
     public boolean save(Facility facility) {
-        List<Facility> facilities = facilityRepository.findAll();
-        for (Facility item : facilities) {
-            if (item.getName().equals(facility.getName())){
-                return false;
-            }
-        }
+       if (facilityRepository.findByName(facility.getName())!=null){
+           return false;
+       }
         facilityRepository.save(facility);
         return true;
     }
 
     @Override
-    public Page<Facility> search(String name, String id, Pageable pageable) {
-        return facilityRepository.findByNameContaining(name,id,pageable);
+    public Page<Facility> search(String name, String FacilityTypeName, Pageable pageable) {
+        return facilityRepository.findByNameContaining(name,FacilityTypeName,pageable);
     }
 
     @Override

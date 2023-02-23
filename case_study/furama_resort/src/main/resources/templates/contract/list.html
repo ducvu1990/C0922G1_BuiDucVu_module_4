@@ -35,18 +35,18 @@
                             <a class="nav-link text-white" th:href="@{/contract/search}">Contrac</a>
                         </li>
                     </ul>
-                    <form class="d-flex" role="search" th:action="@{/facility/search}">
-                        <input class="form-control me-2" type="search" placeholder="Name Search" aria-label="Search"
-                               name="name">
-                        <select name="id" class="form-select" aria-label="Default select example">
-                            <option value="" disabled selected>Facility Type Search</option>
-                            <option th:each="facilityType:${facilityTypes}"
-                                    th:value="${facilityType.id}"
-                                    th:text="${facilityType.name}">
-                            </option>
-                        </select>
-                        <button class="btn btn-primary text-white" type="submit">Search</button>
-                    </form>
+<!--                    <form class="d-flex" role="search" th:action="@{/facility/search}">-->
+<!--                        <input class="form-control me-2" type="search" placeholder="Name Search" aria-label="Search"-->
+<!--                               name="name">-->
+<!--                        <select name="id" class="form-select" aria-label="Default select example">-->
+<!--                            <option value="" disabled selected>Facility Type Search</option>-->
+<!--                            <option th:each="facilityType:${facilityTypes}"-->
+<!--                                    th:value="${facilityType.id}"-->
+<!--                                    th:text="${facilityType.name}">-->
+<!--                            </option>-->
+<!--                        </select>-->
+<!--                        <button class="btn btn-primary text-white" type="submit">Search</button>-->
+<!--                    </form>-->
                 </div>
             </div>
         </nav>
@@ -59,7 +59,7 @@
         <p>
             <button type="button"
                     class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#createModal">
-                Add New Facility
+                Add New Contract
             </button>
         </p>
         <table id="table123" class="table">
@@ -67,51 +67,35 @@
             <tr>
                 <th scope="col">#</th>
                 <th hidden scope="col">Id</th>
-                <th scope="col">Name</th>
-                <th scope="col">Area</th>
-                <th scope="col">Cost</th>
-                <th scope="col">Max People</th>
-                <th scope="col">Standard Room</th>
-                <th scope="col">Description Other Convenience</th>
-                <th scope="col">Pool Area</th>
-                <th scope="col">Number Of Floors</th>
-                <th scope="col">Facility Free</th>
-                <th scope="col">Facility Type</th>
-                <th scope="col">Rent Type</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
+                <th scope="col">Facility Name</th>
+                <th scope="col">Customer Name</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Deposit</th>
+                <th scope="col">Total Cost</th>
+                <th scope="col">Attach Facility</th>
             </tr>
             </thead>
             <tbody>
 
-            <tr th:each="facility,status:${facilityPage}">
+            <tr th:each="contract,status:${contracts}">
                 <td th:text="${status.count}"></td>
-                <td hidden th:text="${facility.getId()}"></td>
-                <td th:text="${facility.getName()}"></td>
-                <td th:text="${facility.getArea()}"></td>
-                <td th:text="${facility.getCost()}"></td>
-                <td th:text="${facility.getMaxPeople()}"></td>
-                <td th:text="${facility.getStandardRoom()}"></td>
-                <td th:text="${facility.getDescriptionOtherConvenience()}"></td>
-                <td th:text="${facility.getPoolArea()}"></td>
-                <td th:text="${facility.getNumberOfFloors()}"></td>
-                <td th:text="${facility.getFacilityFree()}"></td>
-                <td th:text="${facility.getFacilityType().getName()}"></td>
-                <td th:text="${facility.getRentType().getName()}"></td>
+                <td hidden th:text="${contract.getContractId()}"></td>
+                <td th:text="${contract.getFacilityName()}"></td>
+                <td th:text="${contract.getCustomerName()}"></td>
+                <td th:text="${contract.getStartDate()}"></td>
+                <td th:text="${contract.getEndDate()}"></td>
+                <td th:text="${contract.getDeposit()}"></td>
+                <td th:text="${contract.getTotalCost()}"></td>
                 <td>
-                    <button th:attr="onclick=|infoEdit('${facility.getId()}','${facility.getName()}','${facility.getArea()}',
-                    '${facility.getCost()}','${facility.getMaxPeople()}','${facility.getStandardRoom()}',
-                    '${facility.getDescriptionOtherConvenience()}','${facility.getPoolArea()}',
-                    '${facility.getNumberOfFloors()}','${facility.getFacilityFree()}','${facility.getFacilityType().getId()}',
-                    '${facility.getRentType().getId()}')|" type="button"
-                            class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editModal">
-                        Edit
+                    <button th:attr="onclick=|infoAddAttachFacility('${contract.getContractId()}'|" type="button"
+                            class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#AddAttachFacilityModal">
+                        +
                     </button>
-                </td>
-                <td>
-                    <button th:attr="onclick=|infoDelete('${facility.getId()}','${facility.getName()}')|" type="button"
-                            class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                        Delete
+
+                    <button th:attr="onclick=|infoListAttachFacility('${contract.getContractId()}')|" type="button"
+                            class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ListAttachFacilityModal">
+                        List Attch Facility
                     </button>
                 </td>
             </tr>
@@ -119,46 +103,46 @@
             </tbody>
         </table>
         <span>
-    <a th:if="${facilityPage.hasPrevious()}"
-       th:href="@{/facility/search(page=${facilityPage.number}-1,name=${name},id=${id})}">Trước</a></span>
-        <span th:text="${facilityPage.number}+1+'/'"></span>
-        <span th:text="${facilityPage.totalPages}"></span>
-        <span><a th:if="${facilityPage.hasNext()}"
-                 th:href="@{/facility/search(page=${facilityPage.number}+1,name=${name},id=${id})}">Sau</a></span>
+    <a th:if="${contracts.hasPrevious()}"
+       th:href="@{/contract/search(page=${contracts.number}-1)}">Trước</a></span>
+        <span th:text="${contracts.number}+1+'/'"></span>
+        <span th:text="${contracts.totalPages}"></span>
+        <span><a th:if="${contracts.hasNext()}"
+                 th:href="@{/contract/search(page=${contracts.number}+1)}">Sau</a></span>
     </div>
 </div>
 
 
-<!-- Delete Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Add Attach Facility Modal -->
+<!--<div class="modal fade" id="AddAttachFacilityModal" tabindex="-1" aria-labelledby="AddAttachFacilityModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title" id="AddAttachFacilityModalLabel">Delete Facility</h5>-->
+<!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--            </div>-->
+<!--            <form th:action="@{/contract/updateAttachFacilityto}" method="post">-->
+<!--                <div class="modal-body">-->
+<!--                    <input hidden type="text" id="deleteId" name="deleteId">-->
+<!--                    <span>Do you want to delete an Facility </span>-->
+<!--                    <span style="color: red" id="deleteName"></span>-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>-->
+<!--                    <button type="submit" class="btn btn-sm btn-primary">Delete</button>-->
+<!--                </div>-->
+<!--            </form>-->
+
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!-- List Attach Facility Modal -->
+<div class="modal fade" id="ListAttachFacilityModal" tabindex="-1" aria-labelledby="ListAttachFacilityModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Facility</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form th:action="@{/facility/delete}" method="post">
-                <div class="modal-body">
-                    <input hidden type="text" id="deleteId" name="deleteId">
-                    <span>Do you want to delete an Facility </span>
-                    <span style="color: red" id="deleteName"></span>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-sm btn-primary">Delete</button>
-                </div>
-            </form>
-
-        </div>
-    </div>
-</div>
-
-<!-- Edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Customer</h5>
+                <h5 class="modal-title" id="ListAttachFacilityModalLabel">Edit Customer</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form th:action="@{/facility/edit}" th:object="${facility}" method="post">
@@ -241,6 +225,8 @@
         </div>
     </div>
 </div>
+
+<!-- Add New Contract Modal -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -331,9 +317,8 @@
 <footer th:replace="/layout::footer"></footer>
 </body>
 <script>
-    function infoDelete(id, name) {
-        document.getElementById("deleteId").value = id;
-        document.getElementById("deleteName").innerText = name;
+    function infoAddAttachFacility(id) {
+        document.getElementById("contractId").value = id;
     }
 
     function infoEdit(id, name, area, cost, maxPeople, standardRoom, descriptionOtherConvenience, poolArea, numberOfFloors,
@@ -351,29 +336,29 @@
         document.getElementById("reType").value = rentType;
     }
     function addFacilityType(){
-       let facilityType = document.getElementById("faType").value;
-       if (facilityType==1){
-           document.getElementById("standardRoom").style.display = "flex";
-           document.getElementById("descriptionOtherConvenience").style.display = "flex";
-           document.getElementById("poolArea").style.display = "flex";
-           document.getElementById("numberOfFloors").style.display = "flex";
-           document.getElementById("facilityFree").style.display = "none";
-           document.getElementById("faType").value = 1;
-       }else if (facilityType==2){
-           document.getElementById("standardRoom").style.display = "flex";
-           document.getElementById("descriptionOtherConvenience").style.display = "flex";
-           document.getElementById("poolArea").style.display = "none";
-           document.getElementById("numberOfFloors").style.display = "flex";
-           document.getElementById("facilityFree").style.display = "none";
-           document.getElementById("faType").value = 2;
-       }else {
-           document.getElementById("standardRoom").style.display = "none";
-           document.getElementById("descriptionOtherConvenience").style.display = "none";
-           document.getElementById("poolArea").style.display = "none";
-           document.getElementById("numberOfFloors").style.display = "none";
-           document.getElementById("facilityFree").style.display = "flex";
-           document.getElementById("faType").value = 3;
-       }
+        let facilityType = document.getElementById("faType").value;
+        if (facilityType==1){
+            document.getElementById("standardRoom").style.display = "flex";
+            document.getElementById("descriptionOtherConvenience").style.display = "flex";
+            document.getElementById("poolArea").style.display = "flex";
+            document.getElementById("numberOfFloors").style.display = "flex";
+            document.getElementById("facilityFree").style.display = "none";
+            document.getElementById("faType").value = 1;
+        }else if (facilityType==2){
+            document.getElementById("standardRoom").style.display = "flex";
+            document.getElementById("descriptionOtherConvenience").style.display = "flex";
+            document.getElementById("poolArea").style.display = "none";
+            document.getElementById("numberOfFloors").style.display = "flex";
+            document.getElementById("facilityFree").style.display = "none";
+            document.getElementById("faType").value = 2;
+        }else {
+            document.getElementById("standardRoom").style.display = "none";
+            document.getElementById("descriptionOtherConvenience").style.display = "none";
+            document.getElementById("poolArea").style.display = "none";
+            document.getElementById("numberOfFloors").style.display = "none";
+            document.getElementById("facilityFree").style.display = "flex";
+            document.getElementById("faType").value = 3;
+        }
 
     }
     function addFacilityTypeToCreate() {
