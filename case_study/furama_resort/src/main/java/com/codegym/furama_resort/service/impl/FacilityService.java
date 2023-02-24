@@ -14,6 +14,12 @@ import java.util.List;
 public class FacilityService implements IFacilityService {
     @Autowired
     private IFacilityRepository facilityRepository;
+
+    @Override
+    public List<Facility> findAllFacility() {
+        return facilityRepository.findAll();
+    }
+
     @Override
     public boolean save(Facility facility) {
        if (facilityRepository.findByName(facility.getName())!=null){

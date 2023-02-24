@@ -14,8 +14,12 @@ public class ContractDetailService implements IContractDetailService {
     private IContractDetailRepository contractDetailRepository;
 
     @Override
-    public void saveContractDetail(ContractDetail contractDetail) {
-        contractDetailRepository.save(contractDetail);
+    public boolean saveContractDetail(ContractDetail contractDetail) {
+        if(contractDetail.getQuantity()>0){
+            contractDetailRepository.save(contractDetail);
+            return true;
+        }
+        return false;
     }
 
     @Override

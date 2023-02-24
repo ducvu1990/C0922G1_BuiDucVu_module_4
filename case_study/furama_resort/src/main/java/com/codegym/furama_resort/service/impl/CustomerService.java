@@ -15,6 +15,7 @@ import java.util.List;
 public class CustomerService implements ICustomerService {
     @Autowired
     private ICustomerRepository customerRepository;
+
     @Override
     public boolean save(Customer customer) {
        if (customerRepository.findByEmail(customer.getEmail())!=null||customerRepository.findByIdCard(customer.getIdCard())!=null
@@ -38,6 +39,11 @@ public class CustomerService implements ICustomerService {
     @Override
     public void update(Customer customer) {
         customerRepository.save(customer);
+    }
+
+    @Override
+    public List<Customer> findAllCustomer() {
+        return customerRepository.findAll();
     }
 
 }

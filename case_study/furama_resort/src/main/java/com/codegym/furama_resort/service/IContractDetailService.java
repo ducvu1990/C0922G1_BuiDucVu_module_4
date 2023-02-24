@@ -5,6 +5,7 @@ import com.codegym.furama_resort.model.ContractDetail;
 import java.util.List;
 
 public interface IContractDetailService {
-    void saveContractDetail(ContractDetail contractDetail);
+    boolean saveContractDetail(ContractDetail contractDetail);
     List<ContractDetail> findContractDetailByContractId(int id);
+
 }

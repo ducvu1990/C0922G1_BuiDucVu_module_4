@@ -1,10 +1,11 @@
 package com.codegym.furama_resort.controller;
 
 import com.codegym.furama_resort.dto.IAttachFacilityDTO;
+import com.codegym.furama_resort.model.Contract;
 import com.codegym.furama_resort.model.ContractDetail;
-import com.codegym.furama_resort.service.IAttachFacilityService;
-import com.codegym.furama_resort.service.IContractDetailService;
-import com.codegym.furama_resort.service.IContractService;
+import com.codegym.furama_resort.model.Customer;
+import com.codegym.furama_resort.model.Facility;
+import com.codegym.furama_resort.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,31 +25,28 @@ public class ContractController {
     private IAttachFacilityService attachFacilityService;
     @Autowired
     private IContractDetailService contractDetailService;
+    @Autowired
+    private ICustomerService customerService;
+    @Autowired
+    private IFacilityService facilityService;
     @GetMapping("search")
     public String showList(@PageableDefault(size = 5, page = 0) Pageable pageable, Model model){
         model.addAttribute("contracts", contractService.findAll(pageable));
         model.addAttribute("attachFacilitys", attachFacilityService.findAllAttachFacility());
         model.addAttribute("contractDetail", new ContractDetail());
+        model.addAttribute("contract",new Contract());
+        model.addAttribute("customers",customerService.findAllCustomer());
+        model.addAttribute("facilitys",facilityService.findAllFacility());
         return "/contract/list";
     }
     @PostMapping("/addContractDetail")
     public String saveContractDetail(@ModelAttribute ContractDetail contractDetail, RedirectAttributes attributes){
-        contractDetailService.saveContractDetail(contractDetail);
-        attributes.addFlashAttribute("message", "Thêm mới hợp đồng chi tiết thành công");
-        return "redirect:/contract/search";
-    }
-    @GetMapping("/findContractDetailByContractId")
-    public String findContractDetailByContractId(@RequestParam(required = false,defaultValue = "0") int id,
-                                                 @PageableDefault(size = 5, page = 0) Pageable pageable,
-                                                 RedirectAttributes attributes){
-        List<ContractDetail> contractDetails = contractDetailService.findContractDetailByContractId(id);
-        if (contractDetails == null){
-            attributes.addFlashAttribute("message", "Id không tìm thấy");
+
+        if (contractDetailService.saveContractDetail(contractDetail)){
+            attributes.addFlashAttribute("message", "Thêm mới hợp đồng chi tiết thành công");
             return "redirect:/contract/search";
         }
-        attributes.addFlashAttribute("contracts", contractService.findAll(pageable));
-        attributes.addFlashAttribute("modal", "true");
-        attributes.addFlashAttribute("contractDetails", contractDetails);
+        attributes.addFlashAttribute("message", "Thêm mới hợp đồng chi tiết 'không' thành công");
         return "redirect:/contract/search";
     }
 }

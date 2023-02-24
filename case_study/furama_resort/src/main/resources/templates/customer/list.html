@@ -58,6 +58,12 @@
 <div class="row">
     <div th:replace="/layout::leftContent"></div>
     <div class="col-md-11 vh-100">
+        <p>
+            <button type="button"
+                    class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+                Add New Customer
+            </button>
+        </p>
         <table id="table123" class="table">
             <thead>
             <tr>
@@ -95,7 +101,7 @@
                     <button th:attr="onclick=|infoEdit('${customer.getId()}','${customer.getName()}','${customer.getDateOfBirth()}',
                     '${customer.isGender()}','${customer.getIdCard()}','${customer.getPhoneNumber()}','${customer.getEmail()}',
                     '${customer.getCustomerType().getId()}','${customer.getAddress()}')|" type="button"
-                            class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editModal">
+                            class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
                         Edit
                     </button>
                 </td>
@@ -213,6 +219,88 @@
                 </div>
             </form>
 
+        </div>
+    </div>
+</div>
+<!--Add New Facility-->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Edit Customer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form th:action="@{/furama/save}" th:object="${customer}" method="post">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <td>
+                            <!--                        pattern="^[A-Z][a-z]*(\s[A-Z][a-z]*)+$"-->
+                            <input  required title=" Tên không đúng định dạng"
+                                    type="text" placeholder="nhập tên" th:field="*{name}">
+                            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <th scope="col">Birthday</th>
+                        <td><input type="date" th:field="*{dateOfBirth}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Gender</th>
+                        <td>
+                            <input type="radio" th:field="*{gender}" th:value="true">Male
+                            <input type="radio" th:field="*{gender}" th:value="false">Female
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Id Card</th>
+                        <td>
+                            <input type="text" th:field="*{idCard}"><br>
+                            <span th:if="${#fields.hasErrors('idCard')}" th:errors="*{idCard}"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Phone</th>
+                        <td>
+                            <input type="text" th:field="*{phoneNumber}"><br>
+                            <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Email</th>
+                        <td>
+
+                            <input type="text" th:field="*{email}"><br>
+                            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Customer Type</th>
+                        <td>
+                            <select th:field="*{customerType}">
+                                <option th:each="customerType:${customerTypes}"
+                                        th:value="${customerType.id}"
+                                        th:text="${customerType.name}">
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Address</th>
+                        <td>
+                            <input th:field="*{address}">
+                            <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span> </td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="col"></th>
+                        <td><input id="btnSave" type="submit" value="Add new customers"></td>
+                    </tr>
+                    </thead>
+                </table>
+            </form>
         </div>
     </div>
 </div>

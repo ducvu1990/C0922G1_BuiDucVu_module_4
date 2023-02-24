@@ -27,22 +27,16 @@ public class CustomerController {
     public String home(){
         return "/layout";
     }
-    @GetMapping("/create")
-    public String showFormCreateCustomer(Model model){
-        model.addAttribute("customer", new CustomerDTO());
-        model.addAttribute("customerTypes", customerTypeService.listCustomerType());
-        return "/customer/createCustomer";
-    }
     @PostMapping("/save")
     public String save(@ModelAttribute CustomerDTO customerDTO, RedirectAttributes attributes){
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerDTO,customer);
         if (customerService.save(customer)){
             attributes.addFlashAttribute("message", "Thêm Mới Thành Công");
-            return "redirect:/furama/create";
+            return "redirect:/furama/search";
         }
         attributes.addFlashAttribute("message", "Thêm Mới Không Thành Công");
-        return "redirect:/furama/create";
+        return "redirect:/furama/search";
     }
     @GetMapping("/search")
     private String search(@RequestParam(required = false, defaultValue = "") String name,
