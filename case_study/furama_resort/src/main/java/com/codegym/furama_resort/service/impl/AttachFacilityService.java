@@ -1,6 +1,6 @@
 package com.codegym.furama_resort.service.impl;
 
-import com.codegym.furama_resort.dto.IAttachFacilityDTO;
+
 import com.codegym.furama_resort.model.AttachFacility;
 import com.codegym.furama_resort.repository.IAttachFacilityRepository;
 import com.codegym.furama_resort.service.IAttachFacilityService;
@@ -18,8 +18,5 @@ public class AttachFacilityService implements IAttachFacilityService {
         return attachFacilityRepository.findAll();
     }
 
-    @Override
-    public List<IAttachFacilityDTO> findAllAttachFacilityByCOntractId(int id) {
-        return attachFacilityRepository.findAllAttachFacilityByContractId(id);
-    }
+
 }

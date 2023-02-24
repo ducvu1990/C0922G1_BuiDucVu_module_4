@@ -1,5 +1,7 @@
 package com.codegym.furama_resort.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Set;

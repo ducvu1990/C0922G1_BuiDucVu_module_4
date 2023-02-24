@@ -6,6 +6,8 @@ import com.codegym.furama_resort.service.IContractDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ContractDetailService implements IContractDetailService {
     @Autowired
@@ -14,5 +16,10 @@ public class ContractDetailService implements IContractDetailService {
     @Override
     public void saveContractDetail(ContractDetail contractDetail) {
         contractDetailRepository.save(contractDetail);
+    }
+
+    @Override
+    public List<ContractDetail> findContractDetailByContractId(int id) {
+        return contractDetailRepository.findAllByContractId(id);
     }
 }

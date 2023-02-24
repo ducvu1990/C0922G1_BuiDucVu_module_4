@@ -1,5 +1,7 @@
 package com.codegym.furama_resort.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,10 +11,12 @@ public class ContractDetail {
     private int id;
     private int quantity;
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "attachFacilityId", referencedColumnName = "id")
     private AttachFacility attachFacility;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "contractId", referencedColumnName = "id")
     private Contract contract;
 
