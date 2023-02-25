@@ -1,11 +1,13 @@
 package com.codegym.furama_resort.controller;
 
+import com.codegym.furama_resort.dto.ContractDTO;
 import com.codegym.furama_resort.dto.IAttachFacilityDTO;
 import com.codegym.furama_resort.model.Contract;
 import com.codegym.furama_resort.model.ContractDetail;
 import com.codegym.furama_resort.model.Customer;
 import com.codegym.furama_resort.model.Facility;
 import com.codegym.furama_resort.service.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -29,14 +31,17 @@ public class ContractController {
     private ICustomerService customerService;
     @Autowired
     private IFacilityService facilityService;
+    @Autowired
+    private IEmployeeService employeeService;
     @GetMapping("search")
     public String showList(@PageableDefault(size = 5, page = 0) Pageable pageable, Model model){
         model.addAttribute("contracts", contractService.findAll(pageable));
         model.addAttribute("attachFacilitys", attachFacilityService.findAllAttachFacility());
         model.addAttribute("contractDetail", new ContractDetail());
-        model.addAttribute("contract",new Contract());
+        model.addAttribute("contract",new ContractDTO());
         model.addAttribute("customers",customerService.findAllCustomer());
         model.addAttribute("facilitys",facilityService.findAllFacility());
+        model.addAttribute("employees", employeeService.finAllEmployee());
         return "/contract/list";
     }
     @PostMapping("/addContractDetail")
@@ -47,6 +52,14 @@ public class ContractController {
             return "redirect:/contract/search";
         }
         attributes.addFlashAttribute("message", "Thêm mới hợp đồng chi tiết 'không' thành công");
+        return "redirect:/contract/search";
+    }
+    @PostMapping("/save")
+    public String save(@ModelAttribute ContractDTO contractDTO, RedirectAttributes attributes){
+        Contract contract = new Contract();
+        BeanUtils.copyProperties(contractDTO,contract);
+        contractService.save(contract);
+        attributes.addFlashAttribute("message", "Thêm Mới Hợp Dồng Thành Công");
         return "redirect:/contract/search";
     }
 }

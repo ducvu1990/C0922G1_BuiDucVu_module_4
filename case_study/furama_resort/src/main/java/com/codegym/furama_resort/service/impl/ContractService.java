@@ -1,6 +1,7 @@
 package com.codegym.furama_resort.service.impl;
 
 import com.codegym.furama_resort.dto.IContractDTO;
+import com.codegym.furama_resort.model.Contract;
 import com.codegym.furama_resort.repository.IContractRepository;
 import com.codegym.furama_resort.service.IContractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,5 +16,10 @@ public class ContractService implements IContractService {
     @Override
     public Page<IContractDTO> findAll(Pageable pageable) {
         return contractRepository.findAllContract(pageable);
+    }
+
+    @Override
+    public void save(Contract contract) {
+        contractRepository.save(contract);
     }
 }
