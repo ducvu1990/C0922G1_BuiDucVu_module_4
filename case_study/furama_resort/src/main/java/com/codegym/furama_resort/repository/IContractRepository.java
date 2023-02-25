@@ -12,14 +12,15 @@ public interface IContractRepository extends JpaRepository<Contract,Integer> {
             "`facility`.name as facilityName, \n" +
             "`customer`.name as customerName, \n" +
             "`contract`.start_date as startDate, \n" +
-            "        `contract`.end_date as endDate,\n" +
-            "`contract`.deposit,(sum(ifnull(`attach_facility`.cost, 0) * ifnull(`contract_detail`.quantity, 0) + ifnull(`facility`.cost, 0))) as totalCost\n" +
-            "from `customer` \n" +
-            "left join `customer_type` on `customer`.customer_type_id = `customer_type`.id \n" +
-            "join `contract` on `customer`.id = `contract`.costomer_id \n" +
+            "`contract`.end_date as endDate, \n" +
+            "`contract`.deposit as deposit, \n" +
+            "(sum(ifnull(`attach_facility`.cost, 0) * ifnull(`contract_detail`.quantity, 0)) + ifnull(`facility`.cost, 0)) as totalCost\n" +
+            "from `contract`\n" +
+            "left join `customer` on `customer`.id = `contract`.costomer_id \n" +
+            "left join `customer_type` on `customer`.customer_type_id = `customer_type`.id  \n" +
             "left join `facility` on `contract`.facility_id = `facility`.id \n" +
             "left join `contract_detail` on `contract`.id = `contract_detail`.contract_id \n" +
             "left join `attach_facility` on `contract_detail`.attach_facility_id = `attach_facility`.id \n" +
-            "group by `contract`.id, `customer`.id", nativeQuery = true)
+            "group by `contract`.id", nativeQuery = true)
     Page<IContractDTO> findAllContract(Pageable pageable);
 }

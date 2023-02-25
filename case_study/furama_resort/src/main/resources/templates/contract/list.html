@@ -80,8 +80,9 @@
                             class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddContractDetailModal">
                         +
                     </button>
-                    <button  type="button" class="btn btn-primary" data-bs-toggle="modal"
-                             data-bs-target="#ListAttachFacilityModal" th:attr="onclick=|showList('${contract.getContractId()}')|">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#ListAttachFacilityModal"
+                            th:attr="onclick=|showList('${contract.getContractId()}')|">
                         List Attach Facility
                     </button>
 
@@ -148,35 +149,37 @@
 </div>
 
 <!-- List Attach Facility Modal -->
-<div class="modal fade" id="ListAttachFacilityModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="ListAttachFacilityModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Delete Facility</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-                <div>
-                    <table border="1" class="table">
-                        <thead>
-                        <tr>
-                            <th>Cost</th>
-                            <th>Name</th>
-                            <th>Quantity</th>
-                        </tr>
-                        </thead>
-                        <tbody id="body">
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                </div>
+            <div>
+                <table border="1" class="table">
+                    <thead>
+                    <tr>
+                        <th>Cost</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                    </tr>
+                    </thead>
+                    <tbody id="body">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
         </div>
     </div>
 </div>
 
 <!--Add new Contract-->
-<div class="modal fade" id="createContractModal" tabindex="-1" aria-labelledby="createContractModalLabel" aria-hidden="true">
+<div class="modal fade" id="createContractModal" tabindex="-1" aria-labelledby="createContractModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -187,10 +190,6 @@
                 <div class="modal-body">
                     <table class="table">
                         <thead>
-                        <tr hidden>
-                            <th scope="col">ID</th>
-                            <td><input type="text" id="createId" th:field="*{id}"></td>
-                        </tr>
                         <tr>
                             <th scope="col">Start Date</th>
                             <td><input type="date" id="startDate" th:field="*{startDate}"></td>
@@ -234,18 +233,23 @@
                             <th></th>
                             <td></td>
                         </tr>
+                        </thead>
+                    </table>
+                    <table id="addContractDetail">
+                        <thead>
                         <tr th:each="attachFacility : ${attachFacilitys}">
                             <td>
-                                    <input type="checkbox" th:text="${attachFacility.name}" th:value="${attachFacility.id}" />
+                                <input type="checkbox" th:text="${attachFacility.name}"
+                                       th:value="${attachFacility.id}" onchange="ListAttachFacility()"/>
                             </td>
                             <td>
-                                <input style="width: 100px" type="number" id="quantityAttachFacility"/>
+                                <input style="width: 100px" type="number" id="quantityAttachFacility" onchange="ListAttachFacility()"/>
                             </td>
                         </tr>
                         </thead>
                     </table>
-
                 </div>
+                <button type="button" class="btn btn-sm btn-primary">+</button>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-sm btn-primary">Save</button>
@@ -262,8 +266,8 @@
     // Xóa nội dung của tbody danh sách dịch vụ đi kèm khi modal bị ẩn
     $("#ListAttachFacilityModal").on("hidden.bs.modal", function () {
         $("#body").empty();
-        debugger;
     });
+
     function infoAddContractDetail(id) {
         document.getElementById("contractId").value = id;
     }
@@ -291,25 +295,36 @@
 
         })
     }
-    function getTotalCost(){
+
+    function getTotalCost() {
         let selectCost = $("#facility option:selected").data("cost")
         $("#totalCost").val(selectCost);
     }
-    // Lấy tất cả các ô checkbox trong bảng
-    var checkboxes = document.querySelectorAll('table input[type="checkbox"]');
 
-    // Duyệt qua danh sách các checkbox và thêm sự kiện "click" cho mỗi checkbox
-    for (var i = 0; i < checkboxes.length; i++) {
-        checkboxes[i].addEventListener('click', function() {
-            // Lấy giá trị của checkbox
-            var checkboxValue = this.checked;
+    function ListAttachFacility() {
+        // Lấy bảng
+        var table = document.getElementById("addContractDetail");
 
-            // Lấy giá trị số lượng từ ô input cùng hàng với checkbox đó
-            var inputValue = this.parentNode.parentNode.querySelector('input[type="number"]').value;
+        // Khởi tạo mảng để lưu giá trị
+        var result = [];
 
-            console.log('Checkbox value:', checkboxValue);
-            console.log('Input value:', inputValue);
-        });
+        // Lấy danh sách các dòng trong bảng
+        var rows = table.getElementsByTagName("tr");
+
+        // Duyệt qua từng dòng trong bảng
+        for (var i = 0; i < rows.length; i++) {
+            // Lấy danh sách các ô trong dòng
+            var cells = rows[i].getElementsByTagName("td");
+
+            // Lấy giá trị của ô checkbox và số lượng ở ô input cùng hàng
+            if (cells[0].getElementsByTagName("input")[0].checked && cells[1].getElementsByTagName("input")[0].value >=1){
+                var checkboxValue = cells[0].getElementsByTagName("input")[0].value;
+                var quantityValue = cells[1].getElementsByTagName("input")[0].value;
+                // Thêm giá trị vào mảng kết quả
+                result.push({attachFacilityId: checkboxValue, quantity: quantityValue});
+            }
+        }
+        console.log(result);
     }
 </script>
 </html>

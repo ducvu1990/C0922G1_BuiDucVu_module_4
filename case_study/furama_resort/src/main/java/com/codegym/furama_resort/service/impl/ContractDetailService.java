@@ -16,6 +16,15 @@ public class ContractDetailService implements IContractDetailService {
     @Override
     public boolean saveContractDetail(ContractDetail contractDetail) {
         if(contractDetail.getQuantity()>0){
+            List<ContractDetail> contractDetails = contractDetailRepository.findAll();
+            for (ContractDetail item :contractDetails) {
+                if (item.getAttachFacility() == contractDetail.getAttachFacility()&&
+                item.getContract() == contractDetail.getContract()){
+                    contractDetail.setId(item.getId());
+                    contractDetail.setQuantity(item.getQuantity()+contractDetail.getQuantity());
+                    contractDetailRepository.save(contractDetail);
+                }
+            }
             contractDetailRepository.save(contractDetail);
             return true;
         }
