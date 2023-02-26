@@ -8,4 +8,5 @@ import org.springframework.data.domain.Pageable;
 public interface IContractService {
     Page<IContractDTO> findAll(Pageable pageable);
     void save(Contract contract);
+    Contract findNewContractByNewContract();
 }

@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface IAttachFacilityService {
     List<AttachFacility> findAllAttachFacility();
-
-
+    AttachFacility findAttachFacility(int id);
 }

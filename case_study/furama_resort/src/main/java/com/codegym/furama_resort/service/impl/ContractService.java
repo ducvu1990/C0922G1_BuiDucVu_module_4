@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 public class ContractService implements IContractService {
     @Autowired
     private IContractRepository contractRepository;
+
+    private Contract newContract = new Contract();
     @Override
     public Page<IContractDTO> findAll(Pageable pageable) {
         return contractRepository.findAllContract(pageable);
@@ -20,6 +22,15 @@ public class ContractService implements IContractService {
 
     @Override
     public void save(Contract contract) {
+        newContract = contract;
         contractRepository.save(contract);
     }
+
+    @Override
+    public Contract findNewContractByNewContract() {
+        return contractRepository.findNewContract(newContract.getDeposit(),newContract.getEndDate(),newContract.getStartDate(),
+                newContract.getCustomer().getId(),newContract.getEmployee().getId(),newContract.getFacility().getId());
+    }
+
+
 }

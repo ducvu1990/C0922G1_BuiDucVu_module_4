@@ -1,8 +1,12 @@
 package com.codegym.furama_resort.controller;
 
 import com.codegym.furama_resort.dto.ContractDetailDTO;
+import com.codegym.furama_resort.dto.ContractDetailResultDTO;
+import com.codegym.furama_resort.model.Contract;
 import com.codegym.furama_resort.model.ContractDetail;
+import com.codegym.furama_resort.service.IAttachFacilityService;
 import com.codegym.furama_resort.service.IContractDetailService;
+import com.codegym.furama_resort.service.IContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +22,10 @@ import java.util.List;
 public class ContractRestController {
     @Autowired
     private IContractDetailService contractDetailService;
+    @Autowired
+    private IContractService contractService;
+    @Autowired
+    private IAttachFacilityService attachFacilityService;
     @GetMapping("/contractDetailList")
     public ResponseEntity<List<ContractDetailDTO>> showList(@RequestParam(required = false,defaultValue = "0") int id){
         List<ContractDetail> contractDetails = contractDetailService.findContractDetailByContractId(id);
@@ -35,9 +43,14 @@ public class ContractRestController {
         return new ResponseEntity<>(contractDetailDTOS,HttpStatus.OK);
     }
     @PostMapping("/saveContractDetail")
-    public ResponseEntity<String> saveContractDetail(@RequestBody List<ContractDetail> contractDetails){
-        for (ContractDetail item :contractDetails) {
-            contractDetailService.saveContractDetail(item);
+    public ResponseEntity<String> saveContractDetail(@RequestBody List<ContractDetailResultDTO> contractDetailResultDTOS){
+        Contract contract = contractService.findNewContractByNewContract();
+        for (ContractDetailResultDTO item :contractDetailResultDTOS) {
+            ContractDetail contractDetail = new ContractDetail();
+            contractDetail.setAttachFacility(attachFacilityService.findAttachFacility(item.getAttachFacilityId()));
+            contractDetail.setContract(contract);
+            contractDetail.setQuantity(item.getQuantity());
+            contractDetailService.saveContractDetail(contractDetail);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }

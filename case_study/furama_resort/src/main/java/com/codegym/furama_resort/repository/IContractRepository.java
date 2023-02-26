@@ -6,6 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.sql.Date;
 
 public interface IContractRepository extends JpaRepository<Contract,Integer> {
     @Query(value = "select `contract`.id as contractId, \n" +
@@ -23,4 +26,9 @@ public interface IContractRepository extends JpaRepository<Contract,Integer> {
             "left join `attach_facility` on `contract_detail`.attach_facility_id = `attach_facility`.id \n" +
             "group by `contract`.id", nativeQuery = true)
     Page<IContractDTO> findAllContract(Pageable pageable);
+    @Query(value = "select * from contract where deposit =:deposit and end_date =:endDate and " +
+            "start_date =:startDate and costomer_id =:customerId and employee_id =:employeeId and facility_id =:facilityId",nativeQuery = true)
+    Contract findNewContract(@Param("deposit") double deposit, @Param("endDate")Date endDate,@Param("startDate") Date startDate,
+                             @Param("customerId") int customerId,@Param("employeeId") int employeeId,
+                             @Param("facilityId") int facilityId);
 }
