@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 @CrossOrigin("*")
 @RequestMapping("/api/contract")
 public class ContractRestController {
@@ -34,11 +34,11 @@ public class ContractRestController {
         }
         return new ResponseEntity<>(contractDetailDTOS,HttpStatus.OK);
     }
-    @PostMapping("/saveContracDetail")
-    public ResponseEntity<String> saveContracDetail(List<ContractDetail> contractDetails){
+    @PostMapping("/saveContractDetail")
+    public ResponseEntity<String> saveContractDetail(@RequestBody List<ContractDetail> contractDetails){
         for (ContractDetail item :contractDetails) {
             contractDetailService.saveContractDetail(item);
         }
-        return new ResponseEntity<>("ok",HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

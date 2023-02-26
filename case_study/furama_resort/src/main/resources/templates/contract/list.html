@@ -188,6 +188,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                 onclick="closeAddNewContractDetailModal()"></button>
             </div>
+
             <form th:action="@{/contract/save}" th:object="${contract}" method="post">
                 <div class="modal-body">
                     <table class="table">
@@ -270,7 +271,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"
                             onclick="closeAddNewContractDetailModal()">Cancel</button>
-                    <button type="submit" class="btn btn-sm btn-primary" onclick="closeAddNewContractDetailModal()">Save</button>
+                    <button type="submit" class="btn btn-sm btn-primary" id="btn-submit">Save</button>
                 </div>
             </form>
 
@@ -285,10 +286,12 @@
     $("#ListAttachFacilityModal").on("hidden.bs.modal", function () {
         $("#body").empty();
     });
+
     // gán giá trị contracId cho modal thêm dịch vụ đi kèm
     function infoAddContractDetail(id) {
         document.getElementById("contractId").value = id;
     }
+
     // hiển thị danh sách dịch vụ đi kèm
     function showList(id) {
         let link = `http://localhost:8080/api/contract/contractDetailList?id=${id}`;
@@ -348,7 +351,7 @@
     }
 
     // tạo dịch vụ đi kèm cho hợp đồng mới
-    function as(){
+    $('#btn-submit').on('click', function() {
         var table = document.getElementById("addContractDetail");
         var listContractDetail = [];
         var rows = table.getElementsByTagName("tr");
@@ -363,10 +366,11 @@
                 listContractDetail.push({attachFacilityId: checkboxValue, quantity: quantityValue});
             }
         }
+        debugger;
         console.log(listContractDetail);
         $.ajax({
             type: "Post",
-            url: "/api/contract/saveContracDetail",
+            url: "/api/contract/saveContractDetail",
             data:JSON.stringify(listContractDetail),
             contentType:"application/json; charset=utf-8",
             dataType: "json",
@@ -374,19 +378,23 @@
                 console.log(result);
             },
             error: function(xhr, status, error) {
-                console.log("xãy ra lỗi");
+                console.log(error);
             }
         })
-    }
+        closeAddNewContractDetailModal();
+    });
+
     // tính tổng tiền của một dịch vụ đi kèm
     function calculateTotalAmount(cost, quantity){
         return cost * quantity;
     }
+
     // ẩn hiện phần chọn dịch vụ đi kèm
     function closeAddNewContractDetailModal(){
         document.getElementById("addContractDetail").style.display = "none";
         count = 1;
     }
+
     // ẩn hiện phần chọn dịch vụ đi kèm
     function showFormCreateContractDetail(){
 
