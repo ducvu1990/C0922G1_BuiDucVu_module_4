@@ -362,11 +362,10 @@
             if (cells[0].getElementsByTagName("input")[0].checked && cells[1].getElementsByTagName("input")[0].value >=1){
                 var checkboxValue = cells[0].getElementsByTagName("input")[0].value;
                 var quantityValue = cells[1].getElementsByTagName("input")[0].value;
-
+                debugger;
                 listContractDetail.push({attachFacilityId: checkboxValue, quantity: quantityValue});
             }
         }
-        debugger;
         console.log(listContractDetail);
         $.ajax({
             type: "Post",
