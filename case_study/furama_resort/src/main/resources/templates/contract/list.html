@@ -155,7 +155,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Facility</h5>
+                <h5 class="modal-title" id="exampleModalLabel">List Attach Facility</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div>
@@ -184,7 +184,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createContractModalLabel">Edit Customer</h5>
+                <h5 class="modal-title" id="createContractModalLabel">Add New Contract</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                 onclick="closeAddNewContractDetailModal()"></button>
             </div>
@@ -213,6 +213,7 @@
                             <th scope="col">Customer</th>
                             <td>
                                 <select th:field="*{customer}" id="customer">
+                                    <option value="" disabled selected>Choose Customer</option>
                                     <option th:each="customer:${customers}"
                                             th:value="${customer.id}"
                                             th:text="${customer.name}">
@@ -224,6 +225,7 @@
                             <th scope="col">Facility</th>
                             <td>
                                 <select th:field="*{facility}" id="facility" onchange="ListAttachFacility()">
+                                    <option value="" disabled selected>Choose Facility</option>
                                     <option th:each="facility:${facilitys}"
                                             th:value="${facility.id}"
                                             th:text="${facility.name}"
@@ -236,6 +238,7 @@
                             <th scope="col">Employee</th>
                             <td>
                                 <select th:field="*{employee}">
+                                    <option value="" disabled selected>Choose Employee</option>
                                     <option th:each="employee:${employees}"
                                     th:value="${employee.id}"
                                     th:text="${employee.name}">
@@ -369,7 +372,7 @@
         console.log(listContractDetail);
         $.ajax({
             type: "Post",
-            url: "/api/contract/saveContractDetail",
+            url: "http://localhost:8080/api/contract/saveContractDetail",
             data:JSON.stringify(listContractDetail),
             contentType:"application/json; charset=utf-8",
             dataType: "json",
