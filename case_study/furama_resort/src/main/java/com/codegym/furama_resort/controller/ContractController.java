@@ -54,12 +54,14 @@ public class ContractController {
         attributes.addFlashAttribute("message", "Thêm mới hợp đồng chi tiết 'không' thành công");
         return "redirect:/contract/search";
     }
-    @PostMapping("/save")
-    public String save(@ModelAttribute ContractDTO contractDTO, RedirectAttributes attributes){
-        Contract contract = new Contract();
-        BeanUtils.copyProperties(contractDTO,contract);
-        contractService.save(contract);
-        attributes.addFlashAttribute("message", "Thêm Mới Hợp Dồng Thành Công");
-        return "redirect:/contract/search";
-    }
+//    @PostMapping("/save")
+//    public String save(@ModelAttribute ContractDTO contractDTO, RedirectAttributes attributes){
+//        Contract contract = new Contract();
+//        BeanUtils.copyProperties(contractDTO,contract);
+//        contractService.save(contract);
+//        attributes.addFlashAttribute("message", "Thêm Mới Hợp Dồng Thành Công");
+//        return "redirect:/contract/search";
+//    }
+
+
 }

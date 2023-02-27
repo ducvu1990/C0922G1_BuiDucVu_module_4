@@ -11,7 +11,6 @@ public class ContractDetail {
     private int id;
     private int quantity;
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "attachFacilityId", referencedColumnName = "id")
     private AttachFacility attachFacility;
 

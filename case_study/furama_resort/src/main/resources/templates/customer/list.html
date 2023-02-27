@@ -222,12 +222,12 @@
         </div>
     </div>
 </div>
-<!--Add New Facility-->
+<!--Add New Customer-->
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createModalLabel">Edit Customer</h5>
+                <h5 class="modal-title" id="createModalLabel">Add New Customer</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form th:action="@{/furama/save}" th:object="${customer}" method="post">

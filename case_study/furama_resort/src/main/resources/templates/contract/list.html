@@ -47,7 +47,7 @@
         <p>
             <button type="button"
                     class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createContractModal"
-            onclick="closeAddNewContractDetailModal()">
+                    onclick="closeAddNewContractDetailModal()">
                 Add New Contract
             </button>
         </p>
@@ -186,10 +186,10 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="createContractModalLabel">Add New Contract</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                onclick="closeAddNewContractDetailModal()"></button>
+                        onclick="closeAddNewContractDetailModal()"></button>
             </div>
 
-            <form th:action="@{/contract/save}" th:object="${contract}" method="post">
+            <form  th:object="${contract}" method="post">
                 <div class="modal-body">
                     <table class="table">
                         <thead>
@@ -237,11 +237,11 @@
                         <tr>
                             <th scope="col">Employee</th>
                             <td>
-                                <select th:field="*{employee}">
+                                <select th:field="*{employee}" id="employee">
                                     <option value="" disabled selected>Choose Employee</option>
                                     <option th:each="employee:${employees}"
-                                    th:value="${employee.id}"
-                                    th:text="${employee.name}">
+                                            th:value="${employee.id}"
+                                            th:text="${employee.name}">
                                     </option>
                                 </select>
                             </td>
@@ -252,7 +252,8 @@
                         </tr>
                         </thead>
                     </table>
-                    <button type="button" class="btn btn-sm btn-primary" onclick="showFormCreateContractDetail()">+</button>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="showFormCreateContractDetail()">+
+                    </button>
                     <table id="addContractDetail">
                         <thead>
                         <tr th:each="attachFacility : ${attachFacilitys}">
@@ -264,7 +265,8 @@
                                 <input type="text" th:value="${attachFacility.cost}">
                             </td>
                             <td>
-                                <input style="width: 100px" type="number" id="quantityAttachFacility" onchange="ListAttachFacility()"/>
+                                <input style="width: 100px" type="number" id="quantityAttachFacility"
+                                       onchange="ListAttachFacility()"/>
                             </td>
                         </tr>
                         </thead>
@@ -273,8 +275,9 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"
-                            onclick="closeAddNewContractDetailModal()">Cancel</button>
-                    <button type="submit" class="btn btn-sm btn-primary" id="btn-submit">Save</button>
+                            onclick="closeAddNewContractDetailModal()">Cancel
+                    </button>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="infoAddContractDetailandContract()">Save</button>
                 </div>
             </form>
 
@@ -338,12 +341,12 @@
             var cells = rows[i].getElementsByTagName("td");
 
             // Lấy giá trị của ô checkbox và số lượng ở ô input cùng hàng
-            if (cells[0].getElementsByTagName("input")[0].checked && cells[2].getElementsByTagName("input")[0].value >=1){
+            if (cells[0].getElementsByTagName("input")[0].checked && cells[2].getElementsByTagName("input")[0].value >= 1) {
                 var checkboxValue = cells[0].getElementsByTagName("input")[0].value;
                 var costValue = cells[1].getElementsByTagName("input")[0].value;
                 var quantityValue = cells[2].getElementsByTagName("input")[0].value;
                 // Thêm giá trị vào mảng kết quả
-                result.push({attachFacilityId: checkboxValue,costAttachFacility: costValue, quantity: quantityValue});
+                result.push({attachFacilityId: checkboxValue, costAttachFacility: costValue, quantity: quantityValue});
                 totalCostContractDetail += calculateTotalAmount(costValue, quantityValue);
             }
         }
@@ -354,7 +357,29 @@
     }
 
     // tạo dịch vụ đi kèm cho hợp đồng mới
-    $('#btn-submit').on('click', function() {
+    function infoAddContractDetailandContract(){
+        let startDate = $("#startDate").val();
+        let endDate = $("#endDate").val();
+        let deposit = $("#deposit").val();
+        let customer = $("#customer").val();
+        let facility = $("#facility").val();
+        let employee = $("#employee").val();
+
+        let contract = {
+            startDate: startDate,
+            endDate: endDate,
+            deposit: deposit,
+            customer: {
+                id: customer
+            },
+            facility: {
+                id: facility
+            },
+            employee: {
+                id: employee
+            }
+
+        }
         var table = document.getElementById("addContractDetail");
         var listContractDetail = [];
         var rows = table.getElementsByTagName("tr");
@@ -362,50 +387,62 @@
         for (var i = 0; i < rows.length; i++) {
             var cells = rows[i].getElementsByTagName("td");
 
-            if (cells[0].getElementsByTagName("input")[0].checked && cells[1].getElementsByTagName("input")[0].value >=1){
+            if (cells[0].getElementsByTagName("input")[0].checked && cells[2].getElementsByTagName("input")[0].value >= 1) {
                 var checkboxValue = cells[0].getElementsByTagName("input")[0].value;
-                var quantityValue = cells[1].getElementsByTagName("input")[0].value;
-                debugger;
-                listContractDetail.push({attachFacilityId: checkboxValue, quantity: quantityValue});
+                var quantityValue = cells[2].getElementsByTagName("input")[0].value;
+                let contractDetail = {
+                    attachFacility: {id: checkboxValue},
+                    quantity: quantityValue,
+                }
+                listContractDetail.push(contractDetail);
             }
         }
-        console.log(listContractDetail);
+        let contractsDetailsData = {
+            attachFacility: listContractDetail,
+            contract: contract
+        }
         $.ajax({
             type: "Post",
             url: "http://localhost:8080/api/contract/saveContractDetail",
-            data:JSON.stringify(listContractDetail),
-            contentType:"application/json; charset=utf-8",
+            data: JSON.stringify(contractsDetailsData),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function(result) {
-                console.log(result);
+            success: function () {
+               onCloseModal();
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.log(error);
             }
         })
         closeAddNewContractDetailModal();
-    });
+        onCloseModal();
+    };
+
+    function onCloseModal() {
+        document.getElementById('createContractModal').style.display = 'none';
+        window.location.href = "/contract/search";
+    }
 
     // tính tổng tiền của một dịch vụ đi kèm
-    function calculateTotalAmount(cost, quantity){
+    function calculateTotalAmount(cost, quantity) {
         return cost * quantity;
     }
 
     // ẩn hiện phần chọn dịch vụ đi kèm
-    function closeAddNewContractDetailModal(){
+    function closeAddNewContractDetailModal() {
         document.getElementById("addContractDetail").style.display = "none";
         count = 1;
     }
 
     // ẩn hiện phần chọn dịch vụ đi kèm
-    function showFormCreateContractDetail(){
+    function showFormCreateContractDetail() {
 
-        if (count%2==0){
+        if (count % 2 == 0) {
             document.getElementById("addContractDetail").style.display = "none";
-            count ++;
-        }else {
+            count++;
+        } else {
             document.getElementById("addContractDetail").style.display = "flex";
-            count ++;
+            count++;
         }
     }
 </script>
