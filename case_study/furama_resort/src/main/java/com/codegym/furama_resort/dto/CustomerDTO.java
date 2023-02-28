@@ -2,15 +2,20 @@ package com.codegym.furama_resort.dto;
 
 import com.codegym.furama_resort.model.Contract;
 import com.codegym.furama_resort.model.CustomerType;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.Validator;
 
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Set;
 
-public class CustomerDTO {
+public class CustomerDTO implements Validator {
     private int id;
     @NotEmpty(message = "không được để trống")
     @NotBlank(message = "không được để khoảng trống")
@@ -29,6 +34,22 @@ public class CustomerDTO {
     @Pattern(regexp = "^[\\w._%+-]+@[\\w.-]+\\.[A-Za-z]{2,}$", message = "Email phải đúng định dạng, vd: hau123@gmail.com")
     private String email;
     private String address;
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return false;
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        CustomerDTO customerDTO = (CustomerDTO) target;
+        Date dateOfBirth = customerDTO.getDateOfBirth();
+        LocalDate now = LocalDate.now();
+        int age = Period.between(dateOfBirth.toLocalDate(),now).getYears();
+        if (age <= 18 || age>=90){
+            errors.rejectValue("dateOfBirth", "dateOfBirth","ngày sinh không đúng, bạn phải " +
+                    "lớn hơn 18 tuổi và nhỏ hơn 90 tuổi");
+        }
+    }
 
     private CustomerType customerType;
 

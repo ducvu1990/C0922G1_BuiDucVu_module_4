@@ -38,6 +38,7 @@ public class CustomerController {
                        @RequestParam(required = false, defaultValue = "") String id,
                        @RequestParam(required = false, defaultValue = "0") int page, Model model
                        ) {
+        new CustomerDTO().validate(customerDTO,bindingResult);
         if (bindingResult.hasErrors()){
             Pageable pageable = PageRequest.of(page, 5);
             Page<Customer> customerPage = customerService.search(nameSearch, email, id, pageable);

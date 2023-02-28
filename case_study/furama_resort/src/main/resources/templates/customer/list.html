@@ -246,7 +246,9 @@
                     </tr>
                     <tr>
                         <th scope="col">Birthday</th>
-                        <td><input type="date" th:field="*{dateOfBirth}"></td>
+                        <td><input type="date" th:field="*{dateOfBirth}">
+                        <span style="color: red" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></span>
+                        </td>
                     </tr>
                     <tr>
                         <th scope="col">Gender</th>
