@@ -37,7 +37,7 @@
                     </ul>
                     <form class="d-flex" role="search" th:action="@{/facility/search}">
                         <input class="form-control me-2" type="search" placeholder="Name Search" aria-label="Search"
-                               name="name">
+                               name="nameSearch">
                         <select name="id" class="form-select" aria-label="Default select example">
                             <option value="" disabled selected>Facility Type Search</option>
                             <option th:each="facilityType:${facilityTypes}"
@@ -161,7 +161,7 @@
                 <h5 class="modal-title" id="editModalLabel">Edit Customer</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form th:action="@{/facility/edit}" th:object="${facility}" method="post">
+            <form th:action="@{/facility/edit}" th:object="${facilityDTO}" method="post">
                 <div class="modal-body">
                     <table class="table">
                         <thead>
@@ -242,36 +242,42 @@
     </div>
 </div>
 <!--Add New Facility-->
-<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+<div th:class="${hasErrors == 'true' ? 'modal fade show' : 'modal fade'}"
+     th:style="${hasErrors == 'true' ? 'display: block' : 'display: none'}"
+     id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createModalLabel">Edit Customer</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="createModalLabel">Add New Facility</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="onCloseModal()"></button>
             </div>
-            <form th:action="@{/facility/save}" th:object="${facility}" method="post">
+            <form th:action="@{/facility/save}" th:object="${facilityDTO}" method="post">
                 <div class="modal-body">
                     <table class="table">
                         <thead>
-                        <tr hidden>
-                            <th scope="col">ID</th>
-                            <td><input type="text" id="createId" th:field="*{id}"></td>
-                        </tr>
                         <tr>
                             <th scope="col">Name</th>
-                            <td><input type="text" id="createName" th:field="*{name}"></td>
+                            <td><input type="text" id="createName" th:field="*{name}">
+                            <span style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="col">Area</th>
-                            <td><input type="text" id="createArea" th:field="*{area}"></td>
+                            <td><input type="text" id="createArea" th:field="*{area}">
+                            <span th:if="${#fields.hasErrors('area')}" th:errors="*{area}"></span>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="col">Aost</th>
-                            <td><input type="text" id="createCost" th:field="*{cost}"></td>
+                            <td><input type="text" id="createCost" th:field="*{cost}">
+                            <span th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}"></span>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="col">Max People</th>
-                            <td><input type="text" id="createMaxPeople" th:field="*{maxPeople}"></td>
+                            <td><input type="text" id="createMaxPeople" th:field="*{maxPeople}">
+                            <span th:if="${#fields.hasErrors('maxPeople')}" th:errors="*{maxPeople}"></span>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="col">Standard Room</th>
@@ -284,11 +290,14 @@
                         </tr>
                         <tr>
                             <th scope="col">Pool Area</th>
-                            <td><input type="text" id="createPoolArea" th:field="*{poolArea}"></td>
+                            <td><input type="text" id="createPoolArea" th:field="*{poolArea}">
+                            <span th:if="${#fields.hasErrors('poolArea')}" th:errors="*{poolArea}"></span>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="col">Number Of Floors</th>
-                            <td><input type="text" id="createNumberOfFloors" th:field="*{numberOfFloors}"></td>
+                            <td><input type="text" id="createNumberOfFloors" th:field="*{numberOfFloors}">
+                                <span th:if="${#fields.hasErrors('numberOfFloors')}" th:errors="*{numberOfFloors}"></span></td>
                         </tr>
                         <tr>
                             <th scope="col">Facility Free</th>
@@ -321,7 +330,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal" onclick="onCloseModal()">Cancel</button>
                     <button type="submit" class="btn btn-sm btn-primary">Save</button>
                 </div>
             </form>
@@ -332,6 +341,10 @@
 <footer th:replace="/layout::footer"></footer>
 </body>
 <script>
+    function onCloseModal() {
+        document.getElementById('createModal').style.display = 'none';
+        window.location.href = "/facility/search";
+    }
     function infoDelete(id, name) {
         document.getElementById("deleteId").value = id;
         document.getElementById("deleteName").innerText = name;

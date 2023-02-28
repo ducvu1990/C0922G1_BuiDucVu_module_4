@@ -4,16 +4,29 @@ import com.codegym.furama_resort.model.Contract;
 import com.codegym.furama_resort.model.CustomerType;
 
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.sql.Date;
 import java.util.Set;
 
 public class CustomerDTO {
     private int id;
+    @NotEmpty(message = "không được để trống")
+    @NotBlank(message = "không được để khoảng trống")
+    @Pattern(regexp = "^[A-Z][a-z]*( [A-Z][a-z]*)*$",message = "Tên khách hàng không được chứa số. Và các kí tự đầu tiên của mỗi từ phải viết hoa")
     private String name;
     private Date dateOfBirth;
     private boolean gender;
+    @NotBlank(message = "không được để trống")
+    @Pattern(regexp = "(\\d{9})|(\\d{12})", message = "Số CMND/CCCD phải đúng định dạng, vd:XXXXXXXXX hoặc XXXXXXXXXXXX " +
+            "(X là số 0-9, độ dài CMND 9 số, CCCD 12 số).")
     private String idCard;
+    @NotBlank(message = "không được để trống")
+    @Pattern(regexp = "^((\\+?84)|0)(9[01]\\d{7})$", message = "Số điện thoại chưa đúng định dạng, số điện thoại phải có" +
+            " dạng: 090xxxxxxx hoặc 091xxxxxxx hoặc +8490xxxxxxx hoặc +8491xxxxxxx.")
     private String phoneNumber;
+    @Pattern(regexp = "^[\\w._%+-]+@[\\w.-]+\\.[A-Za-z]{2,}$", message = "Email phải đúng định dạng, vd: hau123@gmail.com")
     private String email;
     private String address;
 

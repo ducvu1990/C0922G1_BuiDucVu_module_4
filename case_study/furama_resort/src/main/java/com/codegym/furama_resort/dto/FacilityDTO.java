@@ -3,15 +3,24 @@ package com.codegym.furama_resort.dto;
 import com.codegym.furama_resort.model.FacilityType;
 import com.codegym.furama_resort.model.RentType;
 
+import javax.validation.constraints.*;
+
 public class FacilityDTO {
     private int id;
+    @NotBlank(message = "không để khoảng trống")
+    @Pattern(regexp = "^[A-Z][a-z]*(\\s[A-Z][a-z]*)*\\s\\d*$", message = "Tên dịch vụ không được chứa kí tự đặc biệt")
     private String name;
+    @Min(value = 0,message = "phải là số nguyên dương")
     private int area;
+    @Min(value = 0,message = "phải là số dương")
     private double cost;
+    @Min(value = 0,message = "phải là số nguyên dương")
     private int maxPeople;
     private String standardRoom;
     private String descriptionOtherConvenience;
+    @Min(value = 0,message = "phải là số dương")
     private double poolArea;
+    @Min(value = 0,message = "phải là số nguyên dương")
     private int numberOfFloors;
     private String facilityFree;
 

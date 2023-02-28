@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -26,22 +28,38 @@ public class FacilityController {
     private IRentTypeService rentTypeService;
 
     @GetMapping("/search")
-    private String search(@RequestParam(required = false, defaultValue = "") String name,
+    private String search(@RequestParam(required = false, defaultValue = "") String nameSearch,
                           @RequestParam(required = false, defaultValue = "") String id,
                           @RequestParam(required = false, defaultValue = "0") int page, Model model){
         Pageable pageable = PageRequest.of(page, 5);
-        Page<Facility> facilityPage = facilityService.search(name, id, pageable);
+        Page<Facility> facilityPage = facilityService.search(nameSearch, id, pageable);
         model.addAttribute("facilityPage", facilityPage);
-        model.addAttribute("name", name);
+        model.addAttribute("name", nameSearch);
         model.addAttribute("id", id);
         model.addAttribute("facilityTypes", facilityTypeService.listFacilityType());
         model.addAttribute("rentTypes", rentTypeService.listRentType());
-        model.addAttribute("facility", new FacilityDTO());
+        model.addAttribute("facilityDTO", new FacilityDTO());
         return "/facility/list";
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute FacilityDTO facilityDTO, RedirectAttributes attributes){
+    public String save(@Validated @ModelAttribute FacilityDTO facilityDTO, BindingResult bindingResult,
+                       @RequestParam(required = false, defaultValue = "") String nameSearch,
+                       @RequestParam(required = false, defaultValue = "") String id,
+                       @RequestParam(required = false, defaultValue = "0") int page, Model model,
+                       RedirectAttributes attributes){
+        if (bindingResult.hasErrors()){
+            Pageable pageable = PageRequest.of(page, 5);
+            Page<Facility> facilityPage = facilityService.search(nameSearch, id, pageable);
+            model.addAttribute("facilityPage", facilityPage);
+            model.addAttribute("name", nameSearch);
+            model.addAttribute("id", id);
+            model.addAttribute("facilityTypes", facilityTypeService.listFacilityType());
+            model.addAttribute("rentTypes", rentTypeService.listRentType());
+            model.addAttribute("facilityDTO", facilityDTO);
+            model.addAttribute("hasErrors", "true");
+            return "/facility/list";
+        }
         Facility facility = new Facility();
         BeanUtils.copyProperties(facilityDTO,facility);
         if (facilityService.save(facility)){
