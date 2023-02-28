@@ -3,12 +3,17 @@ package com.codegym.furama_resort.dto;
 import com.codegym.furama_resort.model.Customer;
 import com.codegym.furama_resort.model.Employee;
 import com.codegym.furama_resort.model.Facility;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
 
-public class ContractDTO {
+public class ContractDTO implements Validator {
     private int id;
     private Date startDate;
     private Date endDate;
@@ -19,6 +24,27 @@ public class ContractDTO {
     private Customer customer;
 
     private Facility facility;
+
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return false;
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        ContractDTO contractDTO = (ContractDTO) target;
+        Date startDate = contractDTO.getStartDate();
+        Date endDate = contractDTO.getEndDate();
+        LocalDate localDate = LocalDate.now();
+        int now = Period.between(localDate, startDate.toLocalDate()).getDays();
+        if (now<0){
+            errors.rejectValue("startDate","startDate", "ngày làm hợp đồng phải là ngyaf hiện tại hoặc tương lai");
+        }
+        int numberOfDaysOfUse = Period.between(startDate.toLocalDate(),endDate.toLocalDate()).getDays();
+        if (numberOfDaysOfUse<0){
+            errors.rejectValue("endDate","endDate", "ngày kết thúc phải sau ngày làm hợp đồng");
+        }
+    }
 
     public ContractDTO() {
     }
@@ -88,4 +114,6 @@ public class ContractDTO {
     public void setFacility(Facility facility) {
         this.facility = facility;
     }
+
+
 }
