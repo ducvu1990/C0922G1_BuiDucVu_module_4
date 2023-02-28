@@ -195,11 +195,15 @@
                         <thead>
                         <tr>
                             <th scope="col">Start Date</th>
-                            <td><input type="date" id="startDate" th:field="*{startDate}"></td>
+                            <td><input type="date" id="startDate" th:field="*{startDate}">
+                            <span th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></span>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="col">End Date</th>
-                            <td><input type="date" id="endDate" th:field="*{endDate}"></td>
+                            <td><input type="date" id="endDate" th:field="*{endDate}">
+                            <span th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></span>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="col">Deposit</th>
